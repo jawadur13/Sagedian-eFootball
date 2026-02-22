@@ -6,12 +6,41 @@
     <title>Auction Tracker | Sagedian eFootball</title>
     <link rel="stylesheet" href="assets/css/main.css">
     <style>
+        /* Updated Tabbed Container Styles */
         .auction-container {
-            display: grid;
-            grid-template-columns: 1.6fr 1fr;
-            gap: 25px;
+            display: block; /* Changed from grid to block for single view */
             margin-top: 30px;
         }
+
+        /* Tab Switcher Styles */
+        .tab-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .tab-btn {
+            padding: 10px 25px;
+            background: var(--surface-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+            .tab-btn.active {
+                background: var(--sel-primary);
+                color: white;
+                border-color: var(--sel-primary);
+                box-shadow: 0 0 15px rgba(0, 123, 255, 0.3);
+            }
+
+            .tab-btn:hover:not(.active) {
+                background: var(--surface-hover);
+            }
 
         .status-badge {
             padding: 4px 8px;
@@ -45,18 +74,11 @@
             background: var(--surface-hover);
             object-fit: contain;
         }
-
-        @media (max-width: 1024px) {
-            .auction-container {
-                grid-template-columns: 1fr;
-            }
-        }
     </style>
 </head>
 <body>
 
     <div id="main-header"></div>
-
 
     <main class="container">
         <header style="text-align: center; margin-top: 40px;">
@@ -64,8 +86,13 @@
             <p style="color: var(--text-muted);">Live updates from the bidding floor.</p>
         </header>
 
+        <div class="tab-container">
+            <button id="tabPlayer" class="tab-btn active" onclick="switchTab('player')">Player Pool</button>
+            <button id="tabTeam" class="tab-btn" onclick="switchTab('team')">Budget Standings</button>
+        </div>
+
         <div class="auction-container">
-            <div class="card" style="padding: 20px;">
+            <div id="playerSection" class="card" style="padding: 20px; display: block;">
                 <h2 style="margin-bottom: 20px; font-size: 1.2rem; border-left: 4px solid var(--sel-primary); padding-left: 10px;">Player Pool</h2>
                 <div style="overflow-x: auto;">
                     <table id="playerTable" class="league-table">
@@ -75,8 +102,8 @@
                                 <th>Pos</th>
                                 <th>Tier</th>
                                 <th>Base</th>
-                                <th>Owner</th>
-                                <th>Price</th>
+                                <th>Sold To</th>
+                                <th>Final Price</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -87,7 +114,7 @@
                 </div>
             </div>
 
-            <div class="card" style="padding: 20px;">
+            <div id="teamSection" class="card" style="padding: 20px; display: none;">
                 <h2 style="margin-bottom: 20px; font-size: 1.2rem; border-left: 4px solid var(--scl-gold); padding-left: 10px;">Budget Standings</h2>
                 <div style="overflow-x: auto;">
                     <table id="teamTable" class="league-table">
@@ -97,8 +124,8 @@
                                 <th>Team</th>
                                 <th>Budget</th>
                                 <th>Spent</th>
-                                <th>Rem.</th>
-                                <th>Count</th>
+                                <th>Remaining Budget</th>
+                                <th>Players Bought</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -117,6 +144,26 @@
         const playersCsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQk0BZJ-JAtl6uuA5tiM2UPRKJXJV7v2KVKi5w2bb6W60-X04HzqLC7ggDS12qkfV77sKqyuhU_rnYE/pub?gid=1335626413&single=true&output=csv";
         const teamsCsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQk0BZJ-JAtl6uuA5tiM2UPRKJXJV7v2KVKi5w2bb6W60-X04HzqLC7ggDS12qkfV77sKqyuhU_rnYE/pub?gid=1901632266&single=true&output=csv";
 
+        // Tab Switching Logic
+        function switchTab(tab) {
+            const playerSec = document.getElementById('playerSection');
+            const teamSec = document.getElementById('teamSection');
+            const playerBtn = document.getElementById('tabPlayer');
+            const teamBtn = document.getElementById('tabTeam');
+
+            if (tab === 'player') {
+                playerSec.style.display = 'block';
+                teamSec.style.display = 'none';
+                playerBtn.classList.add('active');
+                teamBtn.classList.remove('active');
+            } else {
+                playerSec.style.display = 'none';
+                teamSec.style.display = 'block';
+                playerBtn.classList.remove('active');
+                teamBtn.classList.add('active');
+            }
+        }
+
         // Track state for each table independently
         const tableState = {
             playerTable: { lastHash: "", pendingHash: "" },
@@ -129,24 +176,19 @@
                 const response = await fetch(url + cacheBuster);
                 const csvText = await response.text();
 
-                // 1. Create a quick "fingerprint" (hash) of the data
                 const incomingHash = csvText.length + csvText.slice(-30);
                 const state = tableState[tableId];
 
-                // 2. If the data matches what is already on the screen, stop here.
                 if (incomingHash === state.lastHash) return;
 
-                // 3. STABILITY CHECK (Flicker Guard)
-                // If this is the FIRST time we see this new data, mark it as pending and wait for next refresh.
                 if (incomingHash !== state.pendingHash) {
                     state.pendingHash = incomingHash;
                     console.log(`[${tableId}] New data detected, verifying stability...`);
                     return;
                 }
 
-                // 4. Data is stable (seen twice). Update the UI and save the hash.
                 state.lastHash = incomingHash;
-                state.pendingHash = ""; // Reset pending
+                state.pendingHash = "";
 
                 const rows = csvText.split(/\r?\n/).filter(row => row.trim() !== "");
                 const tbody = document.querySelector(`#${tableId} tbody`);
@@ -188,11 +230,7 @@
             fetchData(teamsCsvUrl, 'teamTable', false);
         }
 
-        // Refresh every 5 seconds.
-        // Combined with the Guard, updates will appear in 10s if stable.
         setInterval(refresh, 5000);
-
-        // Initial load
         refresh();
     </script>
 </body>
