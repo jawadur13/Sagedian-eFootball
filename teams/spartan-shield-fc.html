@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astral Warriors | Sagedian eFootball</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <style>
+        .team-header {
+            background: linear-gradient(135deg, var(--surface-card) 0%, var(--bg-dark) 100%);
+            padding: 50px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-flex {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .team-logo-lg {
+            width: 100px;
+            height: 100px;
+            background: var(--surface-hover);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            object-fit: contain;
+        }
+
+        .manager-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 4px solid var(--sel-primary);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .squad-section {
+            margin-top: 40px;
+        }
+
+        .player-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--surface-card);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+            .player-table th {
+                background: rgba(255,255,255,0.05);
+                padding: 15px;
+                text-align: left;
+                color: var(--text-muted);
+                font-size: 0.8rem;
+            }
+
+            .player-table td {
+                padding: 15px;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+        .status-pill {
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            background: var(--border-color);
+            color: var(--text-main);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="main-header"></div>
+
+    <header class="team-header">
+        <div class="container header-flex">
+            <img src="../assets/images/logos/spartan-shield-fc.png" alt="Spartan Shield FC" class="team-logo-lg">
+            <div>
+                <h1 style="font-size: 2.2rem; margin-bottom: 5px;">Spartan Shield FC</h1>
+                <p style="color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem;">Official League Member</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <div class="manager-card">
+            <h3 style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Team Manager</h3>
+            <p style="font-size: 1.2rem; font-weight: bold;">Shahriar Ayon</p>
+        </div>
+
+        <section class="squad-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2>Current Squad</h2>
+            </div>
+
+            <div class="card" style="padding: 0;">
+                <table class="player-table">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Player Name</th>
+                            <th>Position</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>-</td>
+                            <td style="color: var(--text-muted); font-style: italic;">Squad details coming soon...</td>
+                            <td>-</td>
+                            <td><span class="status-pill">Pending</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <div style="margin-top: 40px; text-align: center;">
+            <a href="index.html" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">← Return to All Teams</a>
+        </div>
+
+    </main>
+
+    <div id="main-footer"></div>
+
+    <script src="../assets/js/main.js"></script>
+
+</body>
+</html>

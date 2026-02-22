@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixtures & Schedule | Sagedian eFootball</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <style>
+        .schedule-header {
+            margin-top: 40px;
+            margin-bottom: 30px;
+        }
+
+        .matchday-nav {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        .md-btn {
+            padding: 8px 16px;
+            background: var(--surface-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            color: var(--text-muted);
+            cursor: pointer;
+            white-space: nowrap;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+            .md-btn.active {
+                background: var(--sel-primary);
+                color: white;
+                border-color: var(--sel-primary);
+            }
+
+        .coming-soon-card {
+            text-align: center;
+            padding: 80px 20px;
+            border: 2px dashed var(--border-color);
+            border-radius: var(--radius);
+        }
+
+        .calendar-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="main-header"></div>
+
+    <main class="container">
+
+        <div class="schedule-header">
+            <h1>Fixtures & Schedule</h1>
+            <p style="color: var(--text-muted);">Season 07 Official Match Calendar</p>
+        </div>
+
+        <div class="matchday-nav">
+            <button class="md-btn active">Matchday 1</button>
+            <button class="md-btn">Matchday 2</button>
+            <button class="md-btn">Matchday 3</button>
+            <button class="md-btn">Matchday 4</button>
+            <button class="md-btn">Matchday 5</button>
+            <button class="md-btn">Matchday 6</button>
+        </div>
+
+        <div class="coming-soon-card">
+            <span class="calendar-icon">📅</span>
+            <h2 style="margin-bottom: 15px;">Match Schedule Coming Soon</h2>
+            <p style="color: var(--text-muted); max-width: 500px; margin: 0 auto;">
+                The league committee is currently finalizing the dates and timings for Season 07.
+                Full fixtures will be released immediately following the conclusion of the Auction.
+            </p>
+            <div style="margin-top: 30px;">
+                <a href="../index.html" class="btn-outline" style="display: inline-block; padding: 10px 25px;">Return to Control Tower</a>
+            </div>
+        </div>
+
+    </main>
+
+    <div id="main-footer"></div>
+
+    <script src="../assets/js/main.js"></script>
+
+</body>
+</html>

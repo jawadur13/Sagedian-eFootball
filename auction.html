@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auction Tracker | Sagedian eFootball</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <style>
+        .auction-container {
+            display: grid;
+            grid-template-columns: 1.6fr 1fr;
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+        }
+
+        /* Status Colors aligned with your theme */
+        .SOLD {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .UNSOLD {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+
+        .tier {
+            font-weight: bold;
+            color: var(--scl-gold);
+        }
+
+        .team-logo-mini {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            vertical-align: middle;
+            background: var(--surface-hover);
+            object-fit: contain;
+        }
+
+        @media (max-width: 1024px) {
+            .auction-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="main-header"></div>
+
+    <main class="container">
+        <header style="text-align: center; margin-top: 40px;">
+            <h1 style="color: var(--sel-primary);">Season 07 Auction Tracker</h1>
+            <p style="color: var(--text-muted);">Live updates from the bidding floor.</p>
+        </header>
+
+        <div class="auction-container">
+            <div class="card" style="padding: 20px;">
+                <h2 style="margin-bottom: 20px; font-size: 1.2rem; border-left: 4px solid var(--sel-primary); padding-left: 10px;">Player Pool</h2>
+                <div style="overflow-x: auto;">
+                    <table id="playerTable" class="league-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Pos</th>
+                                <th>Tier</th>
+                                <th>Base</th>
+                                <th>Owner</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="7" style="text-align:center;">Connecting to Auction House...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card" style="padding: 20px;">
+                <h2 style="margin-bottom: 20px; font-size: 1.2rem; border-left: 4px solid var(--scl-gold); padding-left: 10px;">Budget Standings</h2>
+                <div style="overflow-x: auto;">
+                    <table id="teamTable" class="league-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40px;">Logo</th>
+                                <th>Team</th>
+                                <th>Budget</th>
+                                <th>Spent</th>
+                                <th>Rem.</th>
+                                <th>Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="6" style="text-align:center;">Calculating finances...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="main-footer"></div>
+
+    <script src="assets/js/main.js"></script>
+    <script>
+        const playersCsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQk0BZJ-JAtl6uuA5tiM2UPRKJXJV7v2KVKi5w2bb6W60-X04HzqLC7ggDS12qkfV77sKqyuhU_rnYE/pub?gid=1335626413&single=true&output=csv";
+        const teamsCsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQk0BZJ-JAtl6uuA5tiM2UPRKJXJV7v2KVKi5w2bb6W60-X04HzqLC7ggDS12qkfV77sKqyuhU_rnYE/pub?gid=1901632266&single=true&output=csv";
+
+        async function fetchData(url, tableId, isPlayerTable) {
+            try {
+                const response = await fetch(url);
+                const csvText = await response.text();
+                const rows = csvText.split(/\r?\n/).filter(row => row.trim() !== "");
+                const tbody = document.querySelector(`#${tableId} tbody`);
+                tbody.innerHTML = "";
+
+                for (let i = 1; i < rows.length; i++) {
+                    const cols = rows[i].split(',');
+                    const tr = document.createElement('tr');
+                    let html = "";
+
+                    // Add logo column for Team Standings table
+                    if (!isPlayerTable) {
+                        const teamName = cols[0].trim();
+                        // Format: "Wretchedly Terrible FC" -> "wretchedly-terrible-fc"
+                        const logoFileName = teamName.toLowerCase().replace(/\s+/g, '-');
+                        html += `<td><img src="assets/images/logos/${logoFileName}.png" class="team-logo-mini" alt=""></td>`;
+                    }
+
+                    cols.forEach((col, index) => {
+                        let content = col.trim();
+                        if (isPlayerTable && index === 6) {
+                            html += `<td><span class="status-badge ${content}">${content}</span></td>`;
+                        } else if (isPlayerTable && index === 2) {
+                            html += `<td class="tier">${content}</td>`;
+                        } else {
+                            html += `<td>${content}</td>`;
+                        }
+                    });
+                    tr.innerHTML = html;
+                    tbody.appendChild(tr);
+                }
+            } catch (e) {
+                console.error("Error loading " + tableId, e);
+            }
+        }
+
+        function refresh() {
+            fetchData(playersCsvUrl, 'playerTable', true);
+            fetchData(teamsCsvUrl, 'teamTable', false);
+        }
+
+        // Auto-refresh every 15 seconds
+        setInterval(refresh, 15000);
+        refresh();
+    </script>
+</body>
+</html>

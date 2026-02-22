@@ -1,0 +1,160 @@
+:root {
+    /* Core Colors */
+    --bg-dark: #0a0b0d;
+    --surface-card: #161b22;
+    --surface-hover: #1c2128;
+    --border-color: #30363d;
+    /* Competition Colors */
+    --sel-primary: #007bff;
+    --scl-gold: #d4af37;
+    --accent-red: #ff4b2b;
+    /* Text */
+    --text-main: #f0f6fc;
+    --text-muted: #8b949e;
+    /* Spacing & Radii */
+    --radius: 8px;
+    --container-width: 1100px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, sans-serif;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+/* Layout Containers */
+.container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Navigation */
+nav {
+    background: rgba(13, 17, 23, 0.95);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-weight: 800;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+    .nav-links a:hover {
+        color: var(--text-main);
+    }
+
+/* Global Card Component */
+.card {
+    background: var(--surface-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 20px;
+    transition: transform 0.2s;
+}
+
+/* Utility: Table Style (Traditional Football Look) */
+.league-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+    .league-table th {
+        text-align: left;
+        color: var(--text-muted);
+        font-weight: 500;
+        border-bottom: 2px solid var(--border-color);
+        padding: 10px;
+    }
+
+    .league-table td {
+        padding: 12px 10px;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+/* Button UI for Navigation */
+.btn-outline {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--text-main);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+    .btn-outline:hover {
+        background: var(--surface-hover);
+        border-color: var(--sel-primary);
+    }
+
+    .btn-outline.gold:hover {
+        border-color: var(--scl-gold);
+        color: var(--scl-gold);
+    }
+
+.mini-footer {
+    border-top: 1px solid var(--border-color);
+    padding: 20px 0;
+    margin-top: 60px;
+    background: var(--bg-dark);
+}
+
+.footer-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+/* Stack on top of each other on small mobile screens */
+@media (max-width: 480px) {
+    .footer-flex {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+}
+
+.creator-link {
+    text-decoration: none;
+    color: inherit; /* Keeps the same color as the rest of the text */
+    transition: color 0.3s ease;
+}
+
+    .creator-link:hover {
+        color: var(--sel-primary); /* Turns blue (or your primary color) on hover */
+        text-decoration: underline;
+    }
