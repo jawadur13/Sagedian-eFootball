@@ -6,18 +6,17 @@
     <title>Auction Tracker | Sagedian eFootball</title>
     <link rel="stylesheet" href="assets/css/main.css">
     <style>
-        /* Updated Tabbed Container Styles */
         .auction-container {
-            display: block; /* Changed from grid to block for single view */
+            display: block;
             margin-top: 30px;
         }
 
-        /* Tab Switcher Styles */
         .tab-container {
             display: flex;
             justify-content: center;
             gap: 10px;
             margin-top: 20px;
+            flex-wrap: wrap;
         }
 
         .tab-btn {
@@ -38,8 +37,105 @@
                 box-shadow: 0 0 15px rgba(0, 123, 255, 0.3);
             }
 
-            .tab-btn:hover:not(.active) {
-                background: var(--surface-hover);
+        /* Search Bar Styling */
+        .search-wrapper {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 15px;
+            background: var(--surface-hover);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: white;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+            .search-input:focus {
+                border-color: var(--sel-primary);
+            }
+
+        /* Live Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: var(--surface-card);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+            .stat-card small {
+                color: var(--text-muted);
+                display: block;
+                margin-bottom: 5px;
+                font-size: 0.75rem;
+            }
+
+            .stat-card strong {
+                font-size: 1.2rem;
+                color: var(--sel-primary);
+            }
+
+        /* Squad Tab Grid */
+        .squad-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .squad-card {
+            background: var(--surface-card);
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+        }
+
+        .squad-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+            .squad-header img {
+                width: 30px;
+                height: 30px;
+                object-fit: contain;
+            }
+
+        .squad-table {
+            width: 100%;
+            font-size: 0.85rem;
+            border-collapse: collapse;
+        }
+
+            .squad-table td {
+                padding: 6px 4px;
+                border-bottom: 1px solid rgba(255,255,255,0.05);
+            }
+
+            .squad-table .sl {
+                color: var(--text-muted);
+                width: 25px;
+            }
+
+            .squad-table .pos {
+                color: var(--scl-gold);
+                font-weight: bold;
+                width: 40px;
             }
 
         .status-badge {
@@ -50,7 +146,6 @@
             text-transform: uppercase;
         }
 
-        /* Status Colors aligned with your theme */
         .SOLD {
             background: rgba(239, 68, 68, 0.2);
             color: #ef4444;
@@ -71,8 +166,14 @@
             height: 25px;
             border-radius: 50%;
             vertical-align: middle;
-            background: var(--surface-hover);
             object-fit: contain;
+        }
+
+        @media (max-width: 600px) {
+            .tab-btn {
+                padding: 8px 15px;
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
@@ -89,10 +190,14 @@
         <div class="tab-container">
             <button id="tabPlayer" class="tab-btn active" onclick="switchTab('player')">Player Pool</button>
             <button id="tabTeam" class="tab-btn" onclick="switchTab('team')">Budget Standings</button>
+            <button id="tabSquad" class="tab-btn" onclick="switchTab('squad')">Team Squads</button>
         </div>
 
         <div class="auction-container">
             <div id="playerSection" class="card" style="padding: 20px; display: block;">
+                <div class="search-wrapper">
+                    <input type="text" id="playerSearch" class="search-input" placeholder="Search for a player name..." onkeyup="filterPlayers()">
+                </div>
                 <h2 style="margin-bottom: 20px; font-size: 1.2rem; border-left: 4px solid var(--sel-primary); padding-left: 10px;">Player Pool</h2>
                 <div style="overflow-x: auto;">
                     <table id="playerTable" class="league-table">
@@ -108,14 +213,26 @@
                                 <th>Status</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr><td colspan="7" style="text-align:center;">Connecting to Auction House...</td></tr>
-                        </tbody>
+                        <tbody><tr><td colspan="8" style="text-align:center;">Loading Players...</td></tr></tbody>
                     </table>
                 </div>
             </div>
 
             <div id="teamSection" class="card" style="padding: 20px; display: none;">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <small>Players Sold</small>
+                        <strong id="statSold">0</strong>
+                    </div>
+                    <div class="stat-card">
+                        <small>Total Spend</small>
+                        <strong id="statSpent">0 BDT</strong>
+                    </div>
+                    <div class="stat-card">
+                        <small>Avg Price</small>
+                        <strong id="statAvg">0</strong>
+                    </div>
+                </div>
                 <h2 style="margin-bottom: 20px; font-size: 1.2rem; border-left: 4px solid var(--scl-gold); padding-left: 10px;">Budget Standings</h2>
                 <div style="overflow-x: auto;">
                     <table id="teamTable" class="league-table">
@@ -125,14 +242,18 @@
                                 <th>Team</th>
                                 <th>Budget</th>
                                 <th>Spent</th>
-                                <th>Remaining Budget</th>
-                                <th>Players Bought</th>
+                                <th>Remaining</th>
+                                <th>Count</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr><td colspan="6" style="text-align:center;">Calculating finances...</td></tr>
-                        </tbody>
+                        <tbody><tr><td colspan="6" style="text-align:center;">Calculating Finances...</td></tr></tbody>
                     </table>
+                </div>
+            </div>
+
+            <div id="squadSection" style="display: none;">
+                <div id="squadGrid" class="squad-grid">
+                    <p style="text-align:center; color: var(--text-muted);">Syncing Squads...</p>
                 </div>
             </div>
         </div>
@@ -144,100 +265,142 @@
     <script>
         const playersCsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQk0BZJ-JAtl6uuA5tiM2UPRKJXJV7v2KVKi5w2bb6W60-X04HzqLC7ggDS12qkfV77sKqyuhU_rnYE/pub?gid=1335626413&single=true&output=csv";
         const teamsCsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQk0BZJ-JAtl6uuA5tiM2UPRKJXJV7v2KVKi5w2bb6W60-X04HzqLC7ggDS12qkfV77sKqyuhU_rnYE/pub?gid=1901632266&single=true&output=csv";
+        const squadCsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQk0BZJ-JAtl6uuA5tiM2UPRKJXJV7v2KVKi5w2bb6W60-X04HzqLC7ggDS12qkfV77sKqyuhU_rnYE/pub?gid=468925573&single=true&output=csv";
 
-        // Tab Switching Logic
         function switchTab(tab) {
-            const playerSec = document.getElementById('playerSection');
-            const teamSec = document.getElementById('teamSection');
-            const playerBtn = document.getElementById('tabPlayer');
-            const teamBtn = document.getElementById('tabTeam');
+            const sections = { player: 'playerSection', team: 'teamSection', squad: 'squadSection' };
+            const buttons = { player: 'tabPlayer', team: 'tabTeam', squad: 'tabSquad' };
+            Object.keys(sections).forEach(key => {
+                document.getElementById(sections[key]).style.display = key === tab ? 'block' : 'none';
+                document.getElementById(buttons[key]).classList.toggle('active', key === tab);
+            });
+        }
 
-            if (tab === 'player') {
-                playerSec.style.display = 'block';
-                teamSec.style.display = 'none';
-                playerBtn.classList.add('active');
-                teamBtn.classList.remove('active');
-            } else {
-                playerSec.style.display = 'none';
-                teamSec.style.display = 'block';
-                playerBtn.classList.remove('active');
-                teamBtn.classList.add('active');
+        // New Search Filter Logic
+        function filterPlayers() {
+            const input = document.getElementById('playerSearch');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('playerTable');
+            const tr = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < tr.length; i++) {
+                const nameCol = tr[i].getElementsByTagName('td')[1]; // Column 1 is Name
+                if (nameCol) {
+                    const textValue = nameCol.textContent || nameCol.innerText;
+                    tr[i].style.display = textValue.toLowerCase().indexOf(filter) > -1 ? "" : "none";
+                }
             }
         }
 
-        // Track state for each table independently
         const tableState = {
             playerTable: { lastHash: "", pendingHash: "" },
-            teamTable: { lastHash: "", pendingHash: "" }
+            teamTable: { lastHash: "", pendingHash: "" },
+            squadGrid: { lastHash: "", pendingHash: "" }
         };
 
-        async function fetchData(url, tableId, isPlayerTable) {
-            try {
-                const cacheBuster = `&t=${new Date().getTime()}`;
-                const response = await fetch(url + cacheBuster);
-                const csvText = await response.text();
+        async function fetchData() {
+            const cb = `&t=${new Date().getTime()}`;
+            await fetchTable(playersCsvUrl + cb, 'playerTable', true);
+            await fetchTable(teamsCsvUrl + cb, 'teamTable', false);
+            await fetchSquads(squadCsvUrl + cb);
+        }
 
-                const incomingHash = csvText.length + csvText.slice(-30);
+        async function fetchTable(url, tableId, isPlayer) {
+            try {
+                const res = await fetch(url);
+                const csv = await res.text();
+                const hash = csv.length + csv.slice(-20);
                 const state = tableState[tableId];
 
-                if (incomingHash === state.lastHash) return;
+                if (hash === state.lastHash) return;
+                if (hash !== state.pendingHash) { state.pendingHash = hash; return; }
 
-                if (incomingHash !== state.pendingHash) {
-                    state.pendingHash = incomingHash;
-                    console.log(`[${tableId}] New data detected, verifying stability...`);
-                    return;
-                }
-
-                state.lastHash = incomingHash;
-                state.pendingHash = "";
-
-                const rows = csvText.split(/\r?\n/).filter(row => row.trim() !== "");
+                state.lastHash = hash; state.pendingHash = "";
+                const rows = csv.split(/\r?\n/).filter(r => r.trim() !== "");
                 const tbody = document.querySelector(`#${tableId} tbody`);
                 tbody.innerHTML = "";
 
+                let totalS = 0, totalP = 0;
                 for (let i = 1; i < rows.length; i++) {
                     const cols = rows[i].split(',');
                     if (cols.length < 2) continue;
 
+                    if (!isPlayer) {
+                        totalS += parseFloat(cols[3]) || 0;
+                        totalP += parseInt(cols[5]) || 0;
+                    }
+
                     const tr = document.createElement('tr');
-                    let html = "";
+                    let html = isPlayer ? `<td style="color:var(--text-muted);font-size:0.8rem;">${i}</td>` : "";
 
-                    // --- ADD SL NO ONLY FOR PLAYER POOL ---
-                    if (isPlayerTable) {
-                        html += `<td style="color: var(--text-muted); font-size: 0.8rem;">${i}</td>`;
+                    if (!isPlayer) {
+                        const name = cols[0].trim();
+                        const logo = name.toLowerCase().replace(/\s+/g, '-');
+                        html += `<td><img src="assets/images/logos/${logo}.png" class="team-logo-mini"></td>`;
                     }
 
-                    if (!isPlayerTable) {
-                        const teamName = cols[0].trim();
-                        const logoFileName = teamName.toLowerCase().replace(/\s+/g, '-');
-                        html += `<td><img src="assets/images/logos/${logoFileName}.png" class="team-logo-mini" alt=""></td>`;
-                    }
-
-                    cols.forEach((col, index) => {
-                        let content = col.trim();
-                        if (isPlayerTable && index === 6) {
-                            html += `<td><span class="status-badge ${content}">${content}</span></td>`;
-                        } else if (isPlayerTable && index === 2) {
-                            html += `<td class="tier">${content}</td>`;
-                        } else {
-                            html += `<td>${content}</td>`;
-                        }
+                    cols.forEach((col, idx) => {
+                        let val = col.trim();
+                        if (isPlayer && idx === 6) html += `<td><span class="status-badge ${val}">${val}</span></td>`;
+                        else if (isPlayer && idx === 2) html += `<td class="tier">${val}</td>`;
+                        else html += `<td>${val}</td>`;
                     });
                     tr.innerHTML = html;
                     tbody.appendChild(tr);
                 }
-            } catch (e) {
-                console.error("Error loading " + tableId, e);
-            }
+
+                if (!isPlayer) {
+                    document.getElementById('statSold').innerText = totalP;
+                    document.getElementById('statSpent').innerText = totalS + " BDT";
+                    document.getElementById('statAvg').innerText = totalP > 0 ? Math.round(totalS / totalP) : 0;
+                }
+
+                // Re-apply filter after data update
+                if (isPlayer) filterPlayers();
+
+            } catch (e) { console.error(e); }
         }
 
-        function refresh() {
-            fetchData(playersCsvUrl, 'playerTable', true);
-            fetchData(teamsCsvUrl, 'teamTable', false);
+        async function fetchSquads(url) {
+            try {
+                const res = await fetch(url);
+                const csv = await res.text();
+                const hash = csv.length + csv.slice(-20);
+                const state = tableState.squadGrid;
+
+                if (hash === state.lastHash) return;
+                if (hash !== state.pendingHash) { state.pendingHash = hash; return; }
+                state.lastHash = hash; state.pendingHash = "";
+
+                const rows = csv.split(/\r?\n/).map(r => r.split(','));
+                const grid = document.getElementById('squadGrid');
+                grid.innerHTML = "";
+
+                const teamCount = Math.floor(rows[0].length / 3);
+                for (let t = 0; t < teamCount; t++) {
+                    const colIdx = t * 3;
+                    const teamName = rows[0][colIdx].trim();
+                    if (!teamName) continue;
+
+                    const logo = teamName.toLowerCase().replace(/\s+/g, '-');
+                    let squadHtml = `<div class="squad-card"><div class="squad-header"><img src="assets/images/logos/${logo}.png" onerror="this.style.display='none'"><strong style="color:var(--sel-primary)">${teamName}</strong></div><table class="squad-table">`;
+                    let sl = 1;
+                    for (let r = 2; r < rows.length; r++) {
+                        const pName = rows[r][colIdx]?.trim();
+                        const pPos = rows[r][colIdx + 1]?.trim();
+                        const pPrice = rows[r][colIdx + 2]?.trim();
+                        if (pName && pName !== "#N/A" && pName !== "") {
+                            squadHtml += `<tr><td class="sl">${sl++}</td><td>${pName}</td><td class="pos">${pPos || ''}</td><td style="text-align:right">${pPrice || ''}</td></tr>`;
+                        }
+                    }
+                    squadHtml += `</table></div>`;
+                    grid.innerHTML += squadHtml;
+                }
+            } catch (e) { console.error(e); }
         }
 
-        setInterval(refresh, 5000);
-        refresh();
+        setInterval(fetchData, 5000);
+        fetchData();
     </script>
 </body>
 </html>
