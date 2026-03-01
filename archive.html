@@ -698,13 +698,13 @@
         async function loadSharedComponents() {
             try {
                 // Load Header
-                const headerRes = await fetch('header.html');
+                const headerRes = await fetch('components/header.html');
                 if (headerRes.ok) {
                     document.getElementById('main-header').innerHTML = await headerRes.text();
                 }
 
                 // Load Footer
-                const footerRes = await fetch('footer.html');
+                const footerRes = await fetch('components/footer.html');
                 if (footerRes.ok) {
                     document.getElementById('main-footer').innerHTML = await footerRes.text();
                 }
