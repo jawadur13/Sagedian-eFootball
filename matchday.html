@@ -121,27 +121,10 @@
                 <span class="pulse"></span> LIVE ACTION HUB
             </div>
             <h1>Current Matchday</h1>
-            <p style="color: var(--text-muted);">Real-time results and upcoming kick-offs for Season 07.</p>
         </header>
 
-        <div class="fixture-placeholder">
-            <h3 style="text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; color: var(--sel-primary);">Opening Fixtures</h3>
-            
-            <div class="vs-box">
-                <div class="team-stub"></div>
-                <div class="vs-circle">VS</div>
-                <div class="team-stub"></div>
-            </div>
-
-            <h2 style="margin-bottom: 15px;">Matchday Not Started</h2>
-            <p style="color: var(--text-muted); line-height: 1.6;">
-                The stadium lights are warming up. Once the auction concludes and the schedule is locked, live scores and match reports will appear here.
-            </p>
-
-            <div style="margin-top: 30px;">
-                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 10px;">Check Live Auction Status</p>
-                <a href="auction.html" class="btn-outline gold" style="font-size: 0.8rem; display: inline-block;">Auction Tracker</a>
-            </div>
+        <div id="fixture-container">
+            Loading...
         </div>
 
         <div class="match-links-grid">
@@ -164,9 +147,103 @@
 
     </main>
 
+
     <div id="main-footer"></div>
 
     <script src="assets/js/main.js"></script>
 
+    <script>
+const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTNRLcKodSD9CAu-KbkHOifpeoQ3LLNWEOE4ac5KOyuJNxQGNM83W8WPAg-N97gOfFNV9KmF3FuJAyI/pub?gid=276247880&single=true&output=csv";
+
+fetch(sheetURL)
+  .then(res => res.text())
+  .then(data => {
+
+    // Parse CSV properly (handles quoted cells)
+    const rows = data.trim().split("\n").map(row => {
+      const cells = [];
+      let current = "", inQuotes = false;
+      for (let i = 0; i < row.length; i++) {
+        const ch = row[i];
+        if (ch === '"') { inQuotes = !inQuotes; continue; }
+        if (ch === ',' && !inQuotes) { cells.push(current.trim()); current = ""; continue; }
+        current += ch;
+      }
+      cells.push(current.trim());
+      return cells;
+    });
+
+    // Row 1: "Matchday 1" is in col A (index 0), col B is empty
+    const matchday = rows[0][0] || "Matchday";
+
+    // Row 2: "Deadline" in col A, value in col B
+    const deadline = rows[1][1] || "TBD";
+
+    let selMatches = [], sclMatches = [];
+    let currentSection = "";
+
+    for (let i = 2; i < rows.length; i++) {
+      const colA = rows[i][0] || "";
+      const colB = rows[i][1] || "";
+
+      if (!colA && !colB) continue;
+
+      // Section header rows: text only in colA, colB is empty (merged cell)
+      if (colA && !colB) {
+        if (colA.toLowerCase().includes("champions league")) {
+          currentSection = "SCL";
+        } else if (colA.toLowerCase().includes("league")) {
+          // First league header = SEL, second = SCL (sheet has "Sagedian eFootball League" twice)
+          currentSection = currentSection === "SEL" ? "SCL" : "SEL";
+        }
+        continue;
+      }
+
+      // Match row: both columns have team names
+      if (colA && colB) {
+        if (currentSection === "SEL") selMatches.push({ home: colA, away: colB });
+        if (currentSection === "SCL") sclMatches.push({ home: colA, away: colB });
+      }
+    }
+
+    const matchRow = m => `
+      <li style="display:flex; justify-content:space-between; align-items:center;
+                  padding:10px 14px; background:var(--bg-dark);
+                  border:1px solid var(--border-color); border-radius:6px;
+                  margin-bottom:8px; font-size:0.9rem; list-style:none;">
+        <span style="flex:1; text-align:right; font-weight:600;">${m.home}</span>
+        <span style="padding:0 14px; color:var(--text-muted); font-size:0.75rem; font-weight:700;">vs</span>
+        <span style="flex:1; text-align:left; font-weight:600;">${m.away}</span>
+      </li>`;
+
+    const sectionBlock = (title, color, matches) => matches.length ? `
+      <div style="margin-top:24px; text-align:left;">
+        <div style="font-size:0.72rem; font-weight:700; text-transform:uppercase;
+                    letter-spacing:2px; color:${color}; margin-bottom:10px; padding-left:4px;">
+          ${title}
+        </div>
+        <ul style="padding:0; margin:0;">
+          ${matches.map(matchRow).join("")}
+        </ul>
+      </div>` : "";
+
+    document.getElementById("fixture-container").innerHTML = `
+      <div class="fixture-placeholder">
+        <h2 style="font-size:1.6rem; margin-bottom:6px;">${matchday}</h2>
+        <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:0;">
+          <strong style="color:var(--accent-red);">Deadline:</strong> ${deadline}
+        </p>
+        ${sectionBlock("Sagedian eFootball League", "var(--sel-primary)", selMatches)}
+        ${sectionBlock("Sagedian Champions League", "var(--scl-gold)", sclMatches)}
+      </div>`;
+  })
+  .catch(err => {
+    document.getElementById("fixture-container").innerHTML =
+      `<div class="fixture-placeholder">
+        <p style="color:var(--accent-red);">Failed to load matchday data. Please try again.</p>
+       </div>`;
+    console.error("Sheet fetch error:", err);
+  });
+</script>
 </body>
 </html>
