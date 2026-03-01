@@ -434,6 +434,9 @@
 
     </div>
 
+    <div id="main-footer"></div>
+
+
     <script>
         let matches = []; let teams = []; let seasons = []; let tourneys = []; let hof = [];
         const client = window.supabaseClient;
@@ -678,9 +681,9 @@
                         const champ = teams.find(t => t.id == r.champion_id)?.name || "N/A";
                         const runn = teams.find(t => t.id == r.runner_up_id)?.name || "N/A";
                         html += `<td>
-                            <span class="winner-text">🏆 ${champ}</span><br>
-                            <small style="color:#aaa;">Runner-Up: ${runn}</small>
-                        </td>`;
+                                <span class="winner-text">🏆 ${champ}</span><br>
+                                <small style="color:#aaa;">Runner-Up: ${runn}</small>
+                            </td>`;
                     } else {
                         html += `<td style="color:#444;">Did not take place</td>`;
                     }
@@ -693,7 +696,6 @@
 
         init();
 
-        <div id="main-footer"></div>
 
     </script>
 </body>
