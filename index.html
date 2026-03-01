@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sagedian eFootball | Control Tower</title>
     <link rel="stylesheet" href="assets/css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
 </head>
 <body>
 
@@ -31,9 +33,9 @@
             <div class="card" style="border: 1px solid var(--scl-gold); background: linear-gradient(90deg, rgba(20, 26, 35, 1) 0%, rgba(30, 41, 59, 1) 100%);">
                 <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
                     <div>
-                        <span style="color: var(--scl-gold); font-size: 0.75rem; font-weight: bold; text-transform: uppercase; letter-spacing: 2px;">Upcoming Event</span>
+                        <span style="color: var(--scl-gold); font-size: 0.75rem; font-weight: bold; text-transform: uppercase; letter-spacing: 2px;">Past Event</span>
                         <h2 style="margin: 5px 0; color: var(--text-main);">Season 7 Player Auction</h2>
-                        <p style="color: var(--text-muted); font-size: 0.9rem;">The bidding war begins on <strong>26 February, 2026</strong>. Watch live as managers build their dynasties.</p>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">The bidding war is done… check how managers have built their dynasties.</p>
                     </div>
                     <div>
                         <a href="auction.html" class="btn-outline gold" style="padding: 12px 25px; font-weight: bold; display: inline-block;">
@@ -48,7 +50,7 @@
             <div class="card" style="border-left: 5px solid var(--accent-red);">
                 <span style="color: var(--accent-red); font-weight: bold; font-size: 0.8rem;">● LIVE MATCHDAY</span>
                 <h1 style="margin: 10px 0;">The Battle Continues</h1>
-                <p style="color: var(--text-muted);">Matchday 1 will be in progress shortly. View live scores and updated standings.</p>
+                <p style="color: var(--text-muted);">Matchday 1 is currently in progress. View live scores and updated standings.</p>
                 <a href="matchday.html" style="display: inline-block; margin-top: 15px; color: var(--text-main); font-weight: bold;">Enter Matchday Hub →</a>
             </div>
         </section>
@@ -80,6 +82,73 @@
             </div>
         </div>
 
+        <!-- ── BLOCK 1: Last Season Champions ── -->
+        <section style="margin: 40px 0;" id="championsBlock">
+            <div class="card" style="border: 1px solid var(--scl-gold); background: linear-gradient(135deg, #161b22 0%, #1c1a0f 100%); position: relative; overflow: hidden;">
+
+                <!-- decorative glow -->
+                <div style="position:absolute; top:-40px; right:-40px; width:180px; height:180px;
+                    background: radial-gradient(circle, rgba(212,175,55,0.12) 0%, transparent 70%);
+                    pointer-events:none;"></div>
+
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px;">
+                    <div>
+                        <span style="color:var(--scl-gold); font-size:0.72rem; font-weight:700;
+                             text-transform:uppercase; letter-spacing:2px;">
+                            Last Season
+                        </span>
+                        <h2 id="champSeasonLabel" style="margin:6px 0 4px; font-size:1.5rem; color:var(--text-main);">
+                            Season —
+                        </h2>
+                        <p style="color:var(--text-muted); font-size:0.85rem; margin:0;">
+                            Hall of Fame · Most Recent Completed Season
+                        </p>
+                    </div>
+
+                    <a href="archive.html#hall-of-fame"
+                       class="btn-outline gold"
+                       style="padding:10px 20px; font-weight:600; font-size:0.82rem; white-space:nowrap; align-self:center;">
+                        Check Full Hall of Fame ↗
+                    </a>
+                </div>
+
+                <hr style="border:0; border-top:1px solid rgba(212,175,55,0.2); margin:20px 0;">
+
+                <!-- Winners grid — filled dynamically -->
+                <div id="champGrid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:14px;">
+                    <!-- JS injects tournament winner cards here -->
+                    <div style="color:var(--text-muted); font-size:0.85rem;">Loading champions...</div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ── BLOCK 2: Explore Stats CTA ── -->
+        <section style="margin: 40px 0;">
+            <div class="card" style="border-left: 4px solid var(--sel-primary);
+                              display:flex; justify-content:space-between;
+                              align-items:center; flex-wrap:wrap; gap:20px;">
+                <div>
+                    <span style="color:var(--sel-primary); font-size:0.72rem; font-weight:700;
+                         text-transform:uppercase; letter-spacing:2px;">
+                        Deep Dive
+                    </span>
+                    <h2 style="margin:6px 0 6px; color:var(--text-main);">Team Stats & Head-to-Head</h2>
+                    <p style="color:var(--text-muted); font-size:0.88rem; max-width:480px; margin:0;">
+                        Explore detailed performance records for every team, or go head-to-head
+                        and compare two rivals across all seasons and tournaments.
+                    </p>
+                </div>
+                <a href="archive.html"
+                   class="btn-outline"
+                   style="padding:12px 28px; font-weight:700; font-size:0.88rem;
+                  border-color:var(--sel-primary); color:var(--sel-primary); white-space:nowrap;">
+                    Go to Archive →
+                </a>
+            </div>
+        </section>
+
         <section class="about-section">
             <div class="card about-card">
                 <div class="about-content">
@@ -96,6 +165,89 @@
                 </div>
             </div>
         </section>
+
+
+        <!-- ── Script: fetch last season champions from Supabase ── -->
+        <script>
+            (async function loadChampions() {
+                try {
+                    const client = window.supabaseClient;
+
+                    // 1. Fetch all needed data
+                    const { data: seasons } = await client.from('seasons').select('*');
+                    const { data: tournaments } = await client.from('tournaments').select('*').order('id', { ascending: true });
+                    const { data: hof } = await client.from('hall_of_fame').select('*');
+                    const { data: teams } = await client.from('teams').select('*');
+
+                    if (!seasons || !hof || !hof.length) {
+                        document.getElementById('champGrid').innerHTML =
+                            '<p style="color:var(--text-muted); font-size:0.85rem;">No completed seasons yet.</p>';
+                        return;
+                    }
+
+                    // 2. Sort seasons numerically and find the last COMPLETED one
+                    //    (exclude any season whose name contains "7" — adjust if your naming differs)
+                    const sorted = seasons
+                        .sort((a, b) => (parseInt(a.name.match(/\d+/)) || 0) - (parseInt(b.name.match(/\d+/)) || 0));
+
+                    const completedSeasons = sorted.filter(s => {
+                        // A season is "completed" if it has at least one HOF entry
+                        return hof.some(h => h.season_id === s.id);
+                    });
+
+                    if (!completedSeasons.length) {
+                        document.getElementById('champGrid').innerHTML =
+                            '<p style="color:var(--text-muted); font-size:0.85rem;">No completed seasons yet.</p>';
+                        return;
+                    }
+
+                    const lastSeason = completedSeasons[completedSeasons.length - 1];
+                    document.getElementById('champSeasonLabel').innerText = lastSeason.name;
+
+                    // 3. Build a card for each tournament in that season
+                    const seasonEntries = hof.filter(h => h.season_id === lastSeason.id);
+                    const grid = document.getElementById('champGrid');
+                    grid.innerHTML = '';
+
+                    if (!seasonEntries.length) {
+                        grid.innerHTML = '<p style="color:var(--text-muted); font-size:0.85rem;">No records for this season.</p>';
+                        return;
+                    }
+
+                    seasonEntries.forEach(entry => {
+                        const tourney = tournaments?.find(t => t.id === entry.tournament_id);
+                        const champion = teams?.find(t => t.id === entry.champion_id);
+                        const runner = teams?.find(t => t.id === entry.runner_up_id);
+
+                        const tourneyName = tourney?.name || 'Tournament';
+                        const champName = champion?.name || 'N/A';
+                        const runnerName = runner?.name || 'N/A';
+
+                        grid.innerHTML += `
+                                <div style="background:rgba(212,175,55,0.05); border:1px solid rgba(212,175,55,0.2);
+                                            border-radius:6px; padding:14px;">
+                                    <div style="font-size:0.7rem; color:var(--text-muted); text-transform:uppercase;
+                                                letter-spacing:1px; margin-bottom:10px;">
+                                        ${tourneyName}
+                                    </div>
+                                    <div style="display:flex; align-items:baseline; gap:8px; margin-bottom:6px;">
+                                        <span style="font-size:1.1rem;">🏆</span>
+                                        <span style="font-weight:700; color:var(--scl-gold); font-size:1rem;">${champName}</span>
+                                    </div>
+                                    <div style="display:flex; align-items:baseline; gap:8px;">
+                                        <span style="font-size:0.9rem;">🥈</span>
+                                        <span style="color:var(--text-muted); font-size:0.85rem;">Runner-Up: <strong style="color:var(--text-main);">${runnerName}</strong></span>
+                                    </div>
+                                </div>`;
+                    });
+
+                } catch (err) {
+                    console.error("Champions block failed to load:", err);
+                    document.getElementById('champGrid').innerHTML =
+                        '<p style="color:var(--text-muted); font-size:0.85rem;">Could not load champion data.</p>';
+                }
+            })();
+        </script>
     </main>
 
     <div id="main-footer"></div>
