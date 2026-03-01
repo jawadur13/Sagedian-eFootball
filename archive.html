@@ -678,9 +678,9 @@
                         const champ = teams.find(t => t.id == r.champion_id)?.name || "N/A";
                         const runn = teams.find(t => t.id == r.runner_up_id)?.name || "N/A";
                         html += `<td>
-                                    <span class="winner-text">🏆 ${champ}</span><br>
-                                    <small style="color:#aaa;">Runner-Up: ${runn}</small>
-                                </td>`;
+                                        <span class="winner-text">🏆 ${champ}</span><br>
+                                        <small style="color:#aaa;">Runner-Up: ${runn}</small>
+                                    </td>`;
                     } else {
                         html += `<td style="color:#444;">Did not take place</td>`;
                     }
@@ -691,8 +691,10 @@
             });
         }
 
+        // 1. Initialize Archive Data
         init();
-        // 2. Component Loader: Fetches your shared header.html and footer.html
+
+        // 2. Component Loader: Fetches shared header.html and footer.html
         async function loadSharedComponents() {
             try {
                 // Load Header
@@ -711,9 +713,8 @@
             }
         }
 
-        // Run the loader
+        // Run the component loader
         loadSharedComponents();
-
     </script>
 
     <div id="main-footer"></div>
