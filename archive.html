@@ -297,6 +297,8 @@
 </head>
 <body>
 
+    <div id="main-header"></div>
+
     <div class="ticker-wrapper">
         <div class="ticker-content" id="dataTicker">
             Loading database coverage...
@@ -676,9 +678,9 @@
                         const champ = teams.find(t => t.id == r.champion_id)?.name || "N/A";
                         const runn = teams.find(t => t.id == r.runner_up_id)?.name || "N/A";
                         html += `<td>
-                        <span class="winner-text">🏆 ${champ}</span><br>
-                        <small style="color:#aaa;">Runner-Up: ${runn}</small>
-                    </td>`;
+                            <span class="winner-text">🏆 ${champ}</span><br>
+                            <small style="color:#aaa;">Runner-Up: ${runn}</small>
+                        </td>`;
                     } else {
                         html += `<td style="color:#444;">Did not take place</td>`;
                     }
@@ -690,6 +692,9 @@
         }
 
         init();
+
+        <div id="main-footer"></div>
+
     </script>
 </body>
 </html>
