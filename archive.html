@@ -21,11 +21,10 @@
             background: var(--bg);
             color: var(--text);
             margin: 0;
-            padding-bottom: 50px;
+            padding-bottom: 80px;
             line-height: 1.6;
         }
 
-        /* 1. Archive Header Section */
         .header {
             background: linear-gradient(to bottom, var(--secondary), var(--bg));
             padding: 80px 20px 40px;
@@ -58,13 +57,13 @@
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin: 40px 0 20px;
+            margin: 50px 0 20px;
             display: block;
             border-left: 3px solid var(--primary);
             padding-left: 12px;
         }
 
-        /* General Stats & Records */
+        /* Stats & Records */
         .stats-summary {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -84,6 +83,8 @@
             padding: 20px;
             border-radius: 10px;
             transition: border 0.3s;
+            position: relative;
+            overflow: hidden;
         }
 
             .card:hover {
@@ -112,7 +113,7 @@
                 font-weight: 300;
             }
 
-        /* Contextual Filter Bars */
+        /* Contextual Filters */
         .context-filters {
             display: flex;
             gap: 10px;
@@ -133,7 +134,6 @@
             border-radius: 6px;
             outline: none;
             flex-grow: 1;
-            min-width: 150px;
             cursor: pointer;
         }
 
@@ -152,86 +152,156 @@
                 transform: scale(1.05);
             }
 
-        /* 3. Team Overview Card */
-        .team-overview {
-            display: none;
-        }
-
-        .team-grid {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr 1fr;
-            gap: 20px;
-            align-items: center;
-        }
-
-        .split-view {
+        /* Achievements Division */
+        .achievements-box {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
-            margin-top: 25px;
         }
 
-        .split-box {
-            background: rgba(0, 255, 135, 0.05);
-            border: 1px solid rgba(0, 255, 135, 0.1);
-            padding: 20px;
-            border-radius: 8px;
+        .ach-item {
             text-align: center;
+            background: rgba(255,255,255,0.03);
+            padding: 10px;
+            border-radius: 6px;
+            border-bottom: 2px solid transparent;
         }
 
-            .split-box strong {
-                font-size: 1.8rem;
+            .ach-item.champ {
+                border-color: gold;
             }
 
-        /* 4. Head-to-Head Mode */
-        .h2h-view {
+            .ach-item.runner {
+                border-color: silver;
+            }
+
+        /* Tables */
+        .table-container {
             display: none;
-            background: linear-gradient(135deg, #161616 0%, #241144 100%);
-            border: 1px solid var(--primary);
+            margin-top: 20px;
+            width: 100%;
+            overflow-x: auto;
         }
 
-        .h2h-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            text-align: center;
-            padding-bottom: 25px;
-            margin-bottom: 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #111;
+            border-radius: 8px;
         }
 
-        .h2h-team-name {
-            font-size: 1.8rem;
-            flex: 1;
-            font-weight: 800;
-            color: #fff;
+        th {
+            background: #1a1a1a;
+            text-align: left;
+            padding: 12px;
+            font-size: 0.8rem;
+            color: #888;
+            text-transform: uppercase;
         }
 
-        .h2h-stats-line {
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            display: flex;
-            justify-content: space-between;
-            font-size: 1rem;
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #222;
+            font-size: 0.9rem;
         }
 
-            .h2h-stats-line:last-child {
+        .score-pill {
+            background: #333;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        /* Hall of Fame Section */
+        .hof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .hof-card {
+            background: #111;
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            border-radius: 4px;
+        }
+
+        .hof-season-title {
+            color: var(--primary);
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .hof-tourney {
+            font-size: 0.85rem;
+            padding: 10px 0;
+            border-bottom: 1px solid #222;
+        }
+
+            .hof-tourney:last-child {
                 border: none;
             }
 
-        @media (max-width: 768px) {
-            .team-grid {
-                grid-template-columns: 1fr;
-                text-align: center;
+        .winner-text {
+            color: gold;
+            font-weight: bold;
+        }
+
+        .status-tag {
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 3px;
+            background: var(--secondary);
+            color: #fff;
+            margin-left: 10px;
+        }
+
+        .ticker-wrapper {
+            width: 100%;
+            background: var(--secondary);
+            color: var(--primary);
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .ticker-content {
+            display: inline-block;
+            padding-left: 100%;
+            animation: ticker-scroll 130s linear infinite;
+        }
+
+        @keyframes ticker-scroll {
+            0% {
+                transform: translate(0, 0);
             }
 
-            .h2h-team-name {
-                font-size: 1.2rem;
+            100% {
+                transform: translate(-100%, 0);
             }
+        }
+
+        /* Pause on hover so users can read specific details */
+        .ticker-wrapper:hover .ticker-content {
+            animation-play-state: paused;
         }
     </style>
 </head>
 <body>
+
+    <div class="ticker-wrapper">
+        <div class="ticker-content" id="dataTicker">
+            Loading database coverage...
+        </div>
+    </div>
 
     <header class="header">
         <h1>Sagedian eFootball Archive</h1>
@@ -251,13 +321,15 @@
         <span class="section-label">🏅 All-Time Records</span>
         <div class="records-grid">
             <div class="card"><small>Most Dominant Team</small><strong id="recDom">--</strong><span class="val" id="recDomVal"></span></div>
-            <div class="card"><small>Best Home Record Ever</small><strong id="recBestHome">--</strong><span class="val" id="recBestHomeVal"></span></div>
-            <div class="card"><small>Best Away Record Ever</small><strong id="recBestAway">--</strong><span class="val" id="recBestAwayVal"></span></div>
+            <div class="card"><small>Most Trophies</small><strong id="recMostTrophies">--</strong><span class="val" id="recMostTrophiesVal">0 Trophies</span></div>
+            <div class="card"><small>Most Runner-Ups</small><strong id="recMostRunners">--</strong><span class="val" id="recMostRunnersVal">0 Times</span></div>
+            <div class="card"><small>Best Home Record</small><strong id="recBestHome">--</strong><span class="val" id="recBestHomeVal"></span></div>
+            <div class="card"><small>Best Away Record</small><strong id="recBestAway">--</strong><span class="val" id="recBestAwayVal"></span></div>
             <div class="card"><small>Biggest Win Ever</small><span class="val" id="recBigWin">--</span></div>
             <div class="card"><small>Biggest Home Win</small><span class="val" id="recBigHomeWin">--</span></div>
             <div class="card"><small>Biggest Away Win</small><span class="val" id="recBigAwayWin">--</span></div>
             <div class="card"><small>Highest Scoring Match</small><span class="val" id="recHighScoring">--</span></div>
-            <div class="card"><small>Most Team Goals (Single Season)</small><strong id="recSeasonScorer">--</strong><span class="val" id="recSeasonScorerVal"></span></div>
+            <div class="card"><small>Most Goals (Single Season)</small><strong id="recSeasonScorer">--</strong><span class="val" id="recSeasonScorerVal"></span></div>
         </div>
 
         <span class="section-label">Individual Team Analytics</span>
@@ -268,8 +340,8 @@
             <button class="btn-action" onclick="analyzeTeam()">Analyze Team</button>
         </div>
 
-        <div id="teamOverview" class="card team-overview">
-            <div class="team-grid">
+        <div id="teamOverview" class="card" style="display:none;">
+            <div style="display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 20px; align-items: center;">
                 <div>
                     <strong id="cardName" style="font-size: 2.2rem; color: var(--primary);">Team</strong>
                     <div id="cardWinPct" style="color: #fff; font-size: 1.2rem; margin-top: 5px; font-weight: 300;">Win Rate: 0%</div>
@@ -286,9 +358,19 @@
                     <div><small>GD</small><span id="cardGD">0</span></div>
                 </div>
             </div>
-            <div class="split-view">
-                <div class="split-box"><small>Home Record</small><strong id="cardHomeSplit">0W / 0P</strong></div>
-                <div class="split-box"><small>Away Record</small><strong id="cardAwaySplit">0W / 0P</strong></div>
+
+            <div class="achievements-box">
+                <div class="ach-item champ"><small>Trophies</small><strong id="teamTrophies">0</strong></div>
+                <div class="ach-item runner"><small>Runner-Ups</small><strong id="teamRunners">0</strong></div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 25px;">
+                <div style="background: rgba(0,255,135,0.05); padding: 15px; border-radius: 8px; text-align: center;">
+                    <small>Home Record</small><strong id="cardHomeSplit">0W / 0P</strong>
+                </div>
+                <div style="background: rgba(0,255,135,0.05); padding: 15px; border-radius: 8px; text-align: center;">
+                    <small>Away Record</small><strong id="cardAwaySplit">0W / 0P</strong>
+                </div>
             </div>
         </div>
 
@@ -300,45 +382,131 @@
             <button class="btn-action" onclick="analyzeH2H()">Compare Rivalry</button>
         </div>
 
-        <div id="h2hView" class="card h2h-view">
-            <div class="h2h-header">
-                <div class="h2h-team-name" id="h2hNameA">Team A</div>
+        <div id="h2hView" class="card" style="display:none; background: linear-gradient(135deg, #161616 0%, #241144 100%); border: 1px solid var(--primary);">
+            <div style="display: flex; justify-content: space-between; align-items: center; text-align: center; padding-bottom: 25px; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <div id="h2hNameA" style="font-size: 1.8rem; flex: 1; font-weight: 800;">Team A</div>
                 <div style="font-weight: 900; color: var(--primary); padding: 0 20px;">VS</div>
-                <div class="h2h-team-name" id="h2hNameB">Team B</div>
+                <div id="h2hNameB" style="font-size: 1.8rem; flex: 1; font-weight: 800;">Team B</div>
             </div>
             <div class="h2h-stats-line"><span>Total Meetings</span><strong id="h2hP">0</strong></div>
-            <div class="h2h-stats-line"><span>Match Wins</span><div><span id="h2hWA" style="color:var(--primary)">0</span> — <span id="h2hWB" style="color:var(--primary)">0</span></div></div>
+            <div class="h2h-stats-line"><span>Wins</span><div><span id="h2hWA" style="color:var(--primary)">0</span> — <span id="h2hWB" style="color:var(--primary)">0</span></div></div>
             <div class="h2h-stats-line"><span>Draws</span><strong id="h2hD">0</strong></div>
             <div class="h2h-stats-line"><span>Total Goals</span><div><span id="h2hGA">0</span> — <span id="h2hGB">0</span></div></div>
-            <div class="h2h-stats-line"><span>Biggest Win in Rivalry</span><strong id="h2hBigResult">--</strong></div>
+            <div class="h2h-stats-line"><span>Biggest Win</span><strong id="h2hBigResult">--</strong></div>
+
+            <button class="btn-action" style="margin-top:20px; width:100%; font-size: 0.8rem;" onclick="toggleH2HDetails()">Show Detailed History</button>
+            <div id="h2hTableContainer" class="table-container">
+                <table>
+                    <thead><tr><th>Season/Competition</th><th>Home</th><th>Result</th><th>Away</th></tr></thead>
+                    <tbody id="h2hMatchBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <span class="section-label">⚽ Match Explorer</span>
+        <div class="context-filters">
+            <select id="expSeason"><option value="">Select Season</option></select>
+            <select id="expTourney"><option value="">Select Tournament</option></select>
+            <select id="expTeam"><option value="">Select Team</option></select>
+            <button class="btn-action" onclick="exploreDatabase()">Search Database</button>
+        </div>
+        <div id="expTableContainer" class="table-container">
+            <table>
+                <thead><tr><th>Season</th><th>Competition</th><th>Matchup</th><th>Score</th></tr></thead>
+                <tbody id="expMatchBody"></tbody>
+            </table>
+        </div>
+
+        <span class="section-label">🏆 Hall of Fame</span>
+        <div class="table-container" style="display: block;">
+            <table id="hofTable">
+                <thead>
+                    <tr id="hofHeader">
+                        <th>Season</th>
+                    </tr>
+                </thead>
+                <tbody id="hofBody">
+                </tbody>
+            </table>
         </div>
 
     </div>
 
     <script>
-        let matches = [];
-        let teams = [];
-        let seasons = [];
+        let matches = []; let teams = []; let seasons = []; let tourneys = []; let hof = [];
         const client = window.supabaseClient;
 
+        function sortSeasonsByName(arr) {
+            return arr.sort((a, b) => {
+                const numA = parseInt(a.name.match(/\d+/)) || 0;
+                const numB = parseInt(b.name.match(/\d+/)) || 0;
+                return numA - numB;
+            });
+        }
+
         async function init() {
+            // 1. Fetch data from Supabase
             const { data: t } = await client.from('teams').select('*').order('name');
             const { data: s } = await client.from('seasons').select('*');
-            const { data: tr } = await client.from('tournaments').select('*');
-            teams = t; seasons = s;
+            const { data: tr } = await client.from('tournaments').select('*').order('id', { ascending: true });
+            const { data: h } = await client.from('hall_of_fame').select('*');
+            const { data: m } = await client.from('matches').select('*, home:home_team_id(name), away:away_team_id(name), seasons(name), tournaments(name)');
 
-            fillSelect('selTeamA', t); fillSelect('h2hSelectA', t); fillSelect('h2hSelectB', t);
-            fillSelect('selSeasonA', s); fillSelect('selTourneyA', tr);
-
-            const { data: m } = await client.from('matches').select('*, home:home_team_id(name), away:away_team_id(name), seasons(name)');
+            // 2. Assign to global variables and apply sorting
+            teams = t;
+            seasons = sortSeasonsByName(s); // Sorts Season 5 -> 6 -> 7 correctly
+            tourneys = tr;
+            hof = h || [];
             matches = m || [];
 
-            document.getElementById('totalSeasons').innerText = s.length;
+            // 3. Populate Dropdowns (Note: Use 'seasons' variable to ensure sorted order)
+            fillSelect('selTeamA', t);
+            fillSelect('h2hSelectA', t);
+            fillSelect('h2hSelectB', t);
+            fillSelect('expTeam', t);
+
+            fillSelect('selSeasonA', seasons); // Updated to use sorted variable
+            fillSelect('expSeason', seasons);  // Updated to use sorted variable
+
+            fillSelect('selTourneyA', tr);
+            fillSelect('expTourney', tr);
+
+            // 4. Update Summary Stats
+            document.getElementById('totalSeasons').innerText = seasons.length;
             document.getElementById('totalMatches').innerText = matches.length;
             document.getElementById('totalGoals').innerText = matches.reduce((a, b) => a + b.home_goals + b.away_goals, 0);
             document.getElementById('totalTeams').innerText = teams.length;
 
-            calculateAllTimeRecords();
+            // 5. Trigger UI Sections
+            calculateGlobalRecords();
+            renderHallOfFame();
+
+            // 6. NEW: Update the scrolling text at the top
+            updateTicker();
+        }
+
+        // 7. NEW: Helper function for the scrolling ticker
+        function updateTicker() {
+            const tickerEl = document.getElementById('dataTicker');
+            if (!tickerEl) return;
+
+            // 1. Find unique Tournament + Season combinations that have at least one match
+            const activePairs = new Set();
+            matches.forEach(m => {
+                if (m.tournaments && m.seasons) {
+                    // Create a unique string key like "Sagedian Cup Season 6"
+                    activePairs.add(`${m.tournaments.name} ${m.seasons.name}`);
+                }
+            });
+
+            // 2. Convert the Set to a sorted array and join with commas
+            const dataCoverage = Array.from(activePairs).sort().join(", ");
+
+            // 3. Construct the specific message
+            const message = `Note: Some early season data may remain lost or incomplete. Data included from: ${dataCoverage ? dataCoverage : "No match data found yet"}. ——— `;
+
+            // 4. Repeat for smooth looping
+            tickerEl.innerText = message.repeat(5);
         }
 
         function fillSelect(id, data) {
@@ -346,32 +514,27 @@
             data.forEach(x => el.innerHTML += `<option value="${x.id}">${x.name}</option>`);
         }
 
-        function calculateAllTimeRecords() {
+        function calculateGlobalRecords() {
             let bWin = { d: -1, s: "" }, bHomeWin = { d: -1, s: "" }, bAwayWin = { d: -1, s: "" }, hScore = { t: -1, s: "" };
-            let tStats = {}; // Global
-            let seasonStats = {}; // For Most goals per season
+            let tStats = {}; let seasonScoring = {};
+            let troph = {}; let runn = {};
+
+            hof.forEach(h => {
+                troph[h.champion_id] = (troph[h.champion_id] || 0) + 1;
+                runn[h.runner_up_id] = (runn[h.runner_up_id] || 0) + 1;
+            });
 
             matches.forEach(m => {
-                const total = m.home_goals + m.away_goals;
-                const diff = Math.abs(m.home_goals - m.away_goals);
+                const total = m.home_goals + m.away_goals; const diff = Math.abs(m.home_goals - m.away_goals);
                 const scoreStr = `${m.home.name} ${m.home_goals}-${m.away_goals} ${m.away.name}`;
-
                 if (diff > bWin.d) { bWin.d = diff; bWin.s = scoreStr; }
                 if (m.home_goals > m.away_goals && diff > bHomeWin.d) { bHomeWin.d = diff; bHomeWin.s = scoreStr; }
                 if (m.away_goals > m.home_goals && diff > bAwayWin.d) { bAwayWin.d = diff; bAwayWin.s = scoreStr; }
                 if (total > hScore.t) { hScore.t = total; hScore.s = scoreStr; }
 
-                // Domination & Best H/A Logic
-                [m.home_team_id, m.away_team_id].forEach(id => {
-                    if (!tStats[id]) tStats[id] = { p: 0, w: 0, hp: 0, hw: 0, ap: 0, aw: 0 };
-                    tStats[id].p++;
-                });
-
-                // Track season scoring [team_id-season_id]
-                const keyH = `${m.home_team_id}-${m.season_id}`;
-                const keyA = `${m.away_team_id}-${m.season_id}`;
-                seasonStats[keyH] = (seasonStats[keyH] || 0) + m.home_goals;
-                seasonStats[keyA] = (seasonStats[keyA] || 0) + m.away_goals;
+                [m.home_team_id, m.away_team_id].forEach(id => { if (!tStats[id]) tStats[id] = { p: 0, w: 0, hp: 0, hw: 0, ap: 0, aw: 0 }; tStats[id].p++; });
+                const keyH = `${m.home_team_id}-${m.season_id}`; const keyA = `${m.away_team_id}-${m.season_id}`;
+                seasonScoring[keyH] = (seasonScoring[keyH] || 0) + m.home_goals; seasonScoring[keyA] = (seasonScoring[keyA] || 0) + m.away_goals;
 
                 if (m.home_goals > m.away_goals) { tStats[m.home_team_id].w++; tStats[m.home_team_id].hw++; tStats[m.home_team_id].hp++; tStats[m.away_team_id].ap++; }
                 else if (m.away_goals > m.home_goals) { tStats[m.away_team_id].w++; tStats[m.away_team_id].aw++; tStats[m.away_team_id].ap++; tStats[m.home_team_id].hp++; }
@@ -383,34 +546,26 @@
             document.getElementById('recBigAwayWin').innerText = bAwayWin.s;
             document.getElementById('recHighScoring').innerText = hScore.s;
 
-            // Dominant Team
-            let dom = Object.keys(tStats).sort((a, b) => (tStats[b].w / tStats[b].p) - (tStats[a].w / tStats[a].p))[0];
-            if (dom) {
-                document.getElementById('recDom').innerText = teams.find(t => t.id == dom).name;
-                document.getElementById('recDomVal').innerText = `${((tStats[dom].w / tStats[dom].p) * 100).toFixed(1)}% Overall Win Rate`;
-            }
+            // Trophy Records
+            const bestT = Object.keys(troph).sort((a, b) => troph[b] - troph[a])[0];
+            const bestR = Object.keys(runn).sort((a, b) => runn[b] - runn[a])[0];
+            if (bestT) { document.getElementById('recMostTrophies').innerText = teams.find(t => t.id == bestT).name; document.getElementById('recMostTrophiesVal').innerText = troph[bestT] + " Trophies"; }
+            if (bestR) { document.getElementById('recMostRunners').innerText = teams.find(t => t.id == bestR).name; document.getElementById('recMostRunnersVal').innerText = runn[bestR] + " Runner-Ups"; }
 
-            // Best Home/Away Records
+            // Dominant & Venue Records
+            let dom = Object.keys(tStats).sort((a, b) => (tStats[b].w / tStats[b].p) - (tStats[a].w / tStats[a].p))[0];
             let bH = Object.keys(tStats).filter(k => tStats[k].hp > 0).sort((a, b) => (tStats[b].hw / tStats[b].hp) - (tStats[a].hw / tStats[a].hp))[0];
             let bA = Object.keys(tStats).filter(k => tStats[k].ap > 0).sort((a, b) => (tStats[b].aw / tStats[b].ap) - (tStats[a].aw / tStats[a].ap))[0];
 
-            if (bH) {
-                document.getElementById('recBestHome').innerText = teams.find(t => t.id == bH).name;
-                document.getElementById('recBestHomeVal').innerText = `${((tStats[bH].hw / tStats[bH].hp) * 100).toFixed(1)}% Home Win Rate`;
-            }
-            if (bA) {
-                document.getElementById('recBestAway').innerText = teams.find(t => t.id == bA).name;
-                document.getElementById('recBestAwayVal').innerText = `${((tStats[bA].aw / tStats[bA].ap) * 100).toFixed(1)}% Away Win Rate`;
-            }
+            if (dom) { document.getElementById('recDom').innerText = teams.find(t => t.id == dom).name; document.getElementById('recDomVal').innerText = `${((tStats[dom].w / tStats[dom].p) * 100).toFixed(1)}% Win Rate`; }
+            if (bH) { document.getElementById('recBestHome').innerText = teams.find(t => t.id == bH).name; document.getElementById('recBestHomeVal').innerText = `${((tStats[bH].hw / tStats[bH].hp) * 100).toFixed(1)}% Home Win Rate`; }
+            if (bA) { document.getElementById('recBestAway').innerText = teams.find(t => t.id == bA).name; document.getElementById('recBestAwayVal').innerText = `${((tStats[bA].aw / tStats[bA].ap) * 100).toFixed(1)}% Away Win Rate`; }
 
-            // Most Goals Single Season
-            let topSeasonKey = Object.keys(seasonStats).sort((a, b) => seasonStats[b] - seasonStats[a])[0];
-            if (topSeasonKey) {
-                const [tId, sId] = topSeasonKey.split('-');
-                const team = teams.find(t => t.id == tId).name;
-                const season = seasons.find(s => s.id == sId).name;
-                document.getElementById('recSeasonScorer').innerText = team;
-                document.getElementById('recSeasonScorerVal').innerText = `${seasonStats[topSeasonKey]} Goals in ${season}`;
+            let topSeason = Object.keys(seasonScoring).sort((a, b) => seasonScoring[b] - seasonScoring[a])[0];
+            if (topSeason) {
+                const [tId, sId] = topSeason.split('-');
+                document.getElementById('recSeasonScorer').innerText = teams.find(t => t.id == tId).name;
+                document.getElementById('recSeasonScorerVal').innerText = `${seasonScoring[topSeason]} Goals in ${seasons.find(s => s.id == sId).name}`;
             }
         }
 
@@ -418,7 +573,12 @@
             const id = parseInt(document.getElementById('selTeamA').value);
             const sId = parseInt(document.getElementById('selSeasonA').value);
             const trId = parseInt(document.getElementById('selTourneyA').value);
-            if (!id) return alert("Select a team first");
+            if (!id) return;
+
+            const tT = hof.filter(h => h.champion_id == id).length;
+            const tR = hof.filter(h => h.runner_up_id == id).length;
+            document.getElementById('teamTrophies').innerText = tT;
+            document.getElementById('teamRunners').innerText = tR;
 
             let filtered = matches.filter(m => {
                 let p = (m.home_team_id === id || m.away_team_id === id);
@@ -429,23 +589,16 @@
 
             let st = { p: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, hp: 0, hw: 0, ap: 0, aw: 0 };
             filtered.forEach(m => {
-                const isH = m.home_team_id === id;
-                const g = isH ? m.home_goals : m.away_goals;
-                const og = isH ? m.away_goals : m.home_goals;
-                st.p++; st.gf += g; st.ga += og;
-                if (isH) st.hp++; else st.ap++;
-                if (g > og) { st.w++; if (isH) st.hw++; else st.aw++; }
-                else if (g === og) st.d++; else st.l++;
+                const isH = m.home_team_id === id; const g = isH ? m.home_goals : m.away_goals; const og = isH ? m.away_goals : m.home_goals;
+                st.p++; st.gf += g; st.ga += og; if (isH) st.hp++; else st.ap++;
+                if (g > og) { st.w++; if (isH) st.hw++; else st.aw++; } else if (g === og) st.d++; else st.l++;
             });
 
             document.getElementById('teamOverview').style.display = 'block';
             document.getElementById('cardName').innerText = teams.find(t => t.id == id).name;
-            document.getElementById('cardP').innerText = st.p;
-            document.getElementById('cardW').innerText = st.w;
-            document.getElementById('cardD').innerText = st.d;
-            document.getElementById('cardL').innerText = st.l;
-            document.getElementById('cardGF').innerText = st.gf;
-            document.getElementById('cardGA').innerText = st.ga;
+            document.getElementById('cardP').innerText = st.p; document.getElementById('cardW').innerText = st.w;
+            document.getElementById('cardD').innerText = st.d; document.getElementById('cardL').innerText = st.l;
+            document.getElementById('cardGF').innerText = st.gf; document.getElementById('cardGA').innerText = st.ga;
             document.getElementById('cardGD').innerText = st.gf - st.ga;
             document.getElementById('cardWinPct').innerText = `Win Rate: ${((st.w / st.p) * 100 || 0).toFixed(1)}%`;
             document.getElementById('cardHomeSplit').innerText = `${st.hw}W / ${st.hp}P`;
@@ -453,37 +606,87 @@
         }
 
         function analyzeH2H() {
-            const idA = parseInt(document.getElementById('h2hSelectA').value);
-            const idB = parseInt(document.getElementById('h2hSelectB').value);
+            const idA = parseInt(document.getElementById('h2hSelectA').value); const idB = parseInt(document.getElementById('h2hSelectB').value);
             if (!idA || !idB || idA === idB) return alert("Select two different teams");
 
             let rivalry = matches.filter(m => (m.home_team_id == idA && m.away_team_id == idB) || (m.home_team_id == idB && m.away_team_id == idA));
             let s = { p: 0, wA: 0, wB: 0, d: 0, gA: 0, gB: 0, bigWin: "", maxD: -1 };
+            const hBody = document.getElementById('h2hMatchBody'); hBody.innerHTML = '';
 
             rivalry.forEach(m => {
-                s.p++;
-                const isA = m.home_team_id == idA;
-                const gA = isA ? m.home_goals : m.away_goals;
-                const gB = isA ? m.away_goals : m.home_goals;
-                s.gA += gA; s.gB += gB;
-                if (gA > gB) s.wA++; else if (gB > gA) s.wB++; else s.d++;
-
-                if (Math.abs(gA - gB) > s.maxD) {
-                    s.maxD = Math.abs(gA - gB);
-                    s.bigWin = `${gA}-${gB}`;
-                }
+                s.p++; const isA = m.home_team_id == idA; const gA = isA ? m.home_goals : m.away_goals; const gB = isA ? m.away_goals : m.home_goals;
+                s.gA += gA; s.gB += gB; if (gA > gB) s.wA++; else if (gB > gA) s.wB++; else s.d++;
+                if (Math.abs(gA - gB) > s.maxD) { s.maxD = Math.abs(gA - gB); s.bigWin = `${gA}-${gB}`; }
+                hBody.innerHTML += `<tr><td>${m.seasons.name}<br><small>${m.tournaments.name}</small></td><td>${m.home.name}</td><td><span class="score-pill">${m.home_goals}-${m.away_goals}</span></td><td>${m.away.name}</td></tr>`;
             });
 
             document.getElementById('h2hView').style.display = 'block';
             document.getElementById('h2hNameA').innerText = teams.find(t => t.id == idA).name;
             document.getElementById('h2hNameB').innerText = teams.find(t => t.id == idB).name;
-            document.getElementById('h2hP').innerText = s.p;
-            document.getElementById('h2hWA').innerText = s.wA;
-            document.getElementById('h2hWB').innerText = s.wB;
-            document.getElementById('h2hD').innerText = s.d;
-            document.getElementById('h2hGA').innerText = s.gA;
-            document.getElementById('h2hGB').innerText = s.gB;
+            document.getElementById('h2hP').innerText = s.p; document.getElementById('h2hWA').innerText = s.wA;
+            document.getElementById('h2hWB').innerText = s.wB; document.getElementById('h2hD').innerText = s.d;
+            document.getElementById('h2hGA').innerText = s.gA; document.getElementById('h2hGB').innerText = s.gB;
             document.getElementById('h2hBigResult').innerText = s.bigWin || "--";
+            document.getElementById('h2hTableContainer').style.display = 'none';
+        }
+
+        function toggleH2HDetails() { const el = document.getElementById('h2hTableContainer'); el.style.display = el.style.display === 'none' ? 'block' : 'none'; }
+
+        function exploreDatabase() {
+            const sId = parseInt(document.getElementById('expSeason').value);
+            const trId = parseInt(document.getElementById('expTourney').value);
+            const tId = parseInt(document.getElementById('expTeam').value);
+            if (!sId && !trId && !tId) return alert("Select at least one filter");
+
+            let filtered = matches.filter(m => {
+                let p = true; if (sId) p = p && m.season_id == sId; if (trId) p = p && m.tournament_id == trId;
+                if (tId) p = p && (m.home_team_id == tId || m.away_team_id == tId); return p;
+            });
+
+            const body = document.getElementById('expMatchBody'); body.innerHTML = '';
+            filtered.forEach(m => { body.innerHTML += `<tr><td>${m.seasons.name}</td><td>${m.tournaments.name}</td><td>${m.home.name} vs ${m.away.name}</td><td><span class="score-pill">${m.home_goals}-${m.away_goals}</span></td></tr>`; });
+            document.getElementById('expTableContainer').style.display = 'block';
+        }
+
+        function renderHallOfFame() {
+            const head = document.getElementById('hofHeader');
+            const body = document.getElementById('hofBody');
+
+            // Set Tournament Headings
+            head.innerHTML = '<th>Season</th>';
+            tourneys.forEach(tr => head.innerHTML += `<th>${tr.name}</th>`);
+
+            body.innerHTML = '';
+
+            seasons.forEach(s => {
+                let html = `<tr><td><strong>${s.name}</strong>`;
+
+                // Season 7 Specific Tag
+                if (s.name.includes("7")) {
+                    html += `<br><span class="status-tag">On Progress</span>`;
+                }
+                html += `</td>`;
+
+                tourneys.forEach(tr => {
+                    const r = hof.find(h => h.season_id == s.id && h.tournament_id == tr.id);
+
+                    if (s.name.includes("7")) {
+                        html += `<td style="color:#666; font-style:italic;">In Progress</td>`;
+                    } else if (r) {
+                        const champ = teams.find(t => t.id == r.champion_id)?.name || "N/A";
+                        const runn = teams.find(t => t.id == r.runner_up_id)?.name || "N/A";
+                        html += `<td>
+                        <span class="winner-text">🏆 ${champ}</span><br>
+                        <small style="color:#aaa;">Runner-Up: ${runn}</small>
+                    </td>`;
+                    } else {
+                        html += `<td style="color:#444;">Did not take place</td>`;
+                    }
+                });
+
+                html += `</tr>`;
+                body.innerHTML += html;
+            });
         }
 
         init();
