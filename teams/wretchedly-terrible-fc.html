@@ -117,52 +117,71 @@
         </div>
 
         <section class="squad-section">
-            <h2>Current Squad</h2>
-
-            <h3 class="position-group-title">Goalkeepers</h3>
-            <div class="player-grid">
-                <div class="player-card"><span class="player-name">Peter Schmeichel</span><span class="player-pos">GK</span></div>
-                <div class="player-card"><span class="player-name">Júlio César</span><span class="player-pos">GK</span></div>
-                <div class="player-card"><span class="player-name">Gregor Kobel</span><span class="player-pos">GK</span></div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2>Current Squad</h2>
             </div>
 
-            <h3 class="position-group-title">Defenders</h3>
-            <div class="player-grid">
-                <div class="player-card"><span class="player-name">Tony Adams</span><span class="player-pos">CB</span></div>
-                <div class="player-card"><span class="player-name">Alessandro Bastoni</span><span class="player-pos">CB</span></div>
-                <div class="player-card"><span class="player-name">Nico Schlotterbeck</span><span class="player-pos">CB</span></div>
-                <div class="player-card"><span class="player-name">Riccardo Ferri</span><span class="player-pos">CB</span></div>
-                <div class="player-card"><span class="player-name">Pau Torres</span><span class="player-pos">CB</span></div>
-                <div class="player-card"><span class="player-name">Reece James</span><span class="player-pos">RB</span></div>
-                <div class="player-card"><span class="player-name">Alphonso Davies</span><span class="player-pos">LB</span></div>
-                <div class="player-card"><span class="player-name">Hector Fort</span><span class="player-pos">RB</span></div>
-            </div>
-
-            <h3 class="position-group-title">Midfielders</h3>
-            <div class="player-grid">
-                <div class="player-card"><span class="player-name">Sergio Busquets</span><span class="player-pos">DMF</span></div>
-                <div class="player-card"><span class="player-name">Andrea Pirlo</span><span class="player-pos">CMF</span></div>
-                <div class="player-card"><span class="player-name">Aurélien Tchouaméni</span><span class="player-pos">DMF</span></div>
-                <div class="player-card"><span class="player-name">Jordan Henderson</span><span class="player-pos">CMF</span></div>
-                <div class="player-card"><span class="player-name">Edgar Davids</span><span class="player-pos">CMF</span></div>
-                <div class="player-card"><span class="player-name">Koji Nakata</span><span class="player-pos">DMF</span></div>
-                <div class="player-card"><span class="player-name">Raúl González</span><span class="player-pos">AMF/SS</span></div>
-                <div class="player-card"><span class="player-name">Gianfranco Zola</span><span class="player-pos">AMF/SS</span></div>
-                <div class="player-card"><span class="player-name">Uli Hoenes</span><span class="player-pos">AMF</span></div>
-                <div class="player-card"><span class="player-name">Benja Cremaschi</span><span class="player-pos">CMF</span></div>
-            </div>
-
-            <h3 class="position-group-title">Forwards</h3>
-            <div class="player-grid">
-                <div class="player-card"><span class="player-name">Luis Suárez</span><span class="player-pos">CF</span></div>
-                <div class="player-card"><span class="player-name">Michael Owen</span><span class="player-pos">CF</span></div>
-                <div class="player-card"><span class="player-name">Pierre-Emerick Aubameyang</span><span class="player-pos">CF</span></div>
-                <div class="player-card"><span class="player-name">Bebeto</span><span class="player-pos">CF</span></div>
-                <div class="player-card"><span class="player-name">George Best</span><span class="player-pos">RWF</span></div>
-                <div class="player-card"><span class="player-name">Desiré Doué</span><span class="player-pos">LWF</span></div>
-                <div class="player-card"><span class="player-name">Lamine Yamal</span><span class="player-pos">RWF</span></div>
+            <div class="card" style="padding: 0;">
+                <table class="player-table" id="squad-table">
+                    <thead>
+                        <tr>
+                            <th>Player Name</th>
+                            <th>Position</th>
+                            <th>Note</th>
+                        </tr>
+                    </thead>
+                    <tbody id="squad-body">
+                        <tr>
+                            <td colspan="3" style="text-align:center; color: var(--text-muted); font-style: italic;">Loading squad...</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </section>
+
+        <script>
+            const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTNRLcKodSD9CAu-KbkHOifpeoQ3LLNWEOE4ac5KOyuJNxQGNM83W8WPAg-N97gOfFNV9KmF3FuJAyI/pub?gid=1818817428&single=true&output=csv';
+
+            const POSITION_ORDER = { 'GK': 1, 'DEF': 2, 'MID': 3, 'FWD': 4 };
+
+            async function loadSquad() {
+                try {
+                    const res = await fetch(SHEET_CSV_URL);
+                    const text = await res.text();
+
+                    const rows = text.trim().split('\n').slice(1); // skip header row
+
+                    const players = rows
+                        .map(row => {
+                            const cols = row.match(/(".*?"|[^,]+|(?<=,)(?=,)|^(?=,)|(?<=,)$)/g) || [];
+                            const clean = cols.map(c => c.replace(/^"|"$/g, '').trim());
+                            return {
+                                name: clean[0] || '',
+                                position: (clean[1] || '').toUpperCase(),
+                                note: clean[2] || ''
+                            };
+                        })
+                        .filter(p => p.name)
+                        .sort((a, b) => (POSITION_ORDER[a.position] || 99) - (POSITION_ORDER[b.position] || 99));
+
+                    const tbody = document.getElementById('squad-body');
+                    tbody.innerHTML = players.map(p => `
+                        <tr>
+                            <td>${p.name}</td>
+                            <td>${p.position}</td>
+                            <td style="color: var(--text-muted); font-size: 0.85rem;">${p.note}</td>
+                        </tr>
+                    `).join('');
+
+                } catch (err) {
+                    document.getElementById('squad-body').innerHTML = `
+                        <tr><td colspan="3" style="text-align:center; color: var(--text-muted);">Failed to load squad data.</td></tr>
+                    `;
+                }
+            }
+
+            loadSquad();
+        </script>
 
         <div style="margin-top: 40px; text-align: center;">
             <a href="index.html" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">← Return to All Teams</a>
