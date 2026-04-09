@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "D:\\Projects\\sagedian-efootball.pro.bd\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Projects\\sagedian-efootball.pro.bd\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Projects\\sagedian-efootball.pro.bd\\sel\\points.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:sel\\points.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
@@ -59,10 +63,6 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:archive.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Projects\\sagedian-efootball.pro.bd\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Projects\\sagedian-efootball.pro.bd\\assets\\css\\main.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:assets\\css\\main.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
@@ -90,7 +90,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
@@ -106,7 +106,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "schedule.html",
               "DocumentMoniker": "D:\\Projects\\sagedian-efootball.pro.bd\\scl\\schedule.html",
               "RelativeDocumentMoniker": "scl\\schedule.html",
@@ -114,12 +114,11 @@
               "RelativeToolTip": "scl\\schedule.html",
               "ViewState": "AgIAAFgAAAAAAAAAAAAAAHAAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-02-22T07:09:34.524Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-22T07:09:34.524Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "schedule.html",
               "DocumentMoniker": "D:\\Projects\\sagedian-efootball.pro.bd\\sel\\schedule.html",
               "RelativeDocumentMoniker": "sel\\schedule.html",
@@ -127,12 +126,11 @@
               "RelativeToolTip": "sel\\schedule.html",
               "ViewState": "AgIAAFUAAAAAAAAAAAAAAHIAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-02-21T23:15:55.528Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-21T23:15:55.528Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "astral-warriors.html",
               "DocumentMoniker": "D:\\Projects\\sagedian-efootball.pro.bd\\teams\\astral-warriors.html",
               "RelativeDocumentMoniker": "teams\\astral-warriors.html",
@@ -140,25 +138,24 @@
               "RelativeToolTip": "teams\\astral-warriors.html",
               "ViewState": "AgIAAIMAAAAAAAAAAAAAAKoAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-02-21T23:18:47.11Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-21T23:18:47.11Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "points.html",
               "DocumentMoniker": "D:\\Projects\\sagedian-efootball.pro.bd\\sel\\points.html",
               "RelativeDocumentMoniker": "sel\\points.html",
               "ToolTip": "D:\\Projects\\sagedian-efootball.pro.bd\\sel\\points.html",
               "RelativeToolTip": "sel\\points.html",
-              "ViewState": "AgIAAB8AAAAAAAAAAAAAACkAAAAZAAAAAAAAAA==",
+              "ViewState": "AgIAAO4AAAAAAAAAAAAAAP0AAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
               "WhenOpened": "2026-02-21T23:16:13.957Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "points.html",
               "DocumentMoniker": "D:\\Projects\\sagedian-efootball.pro.bd\\scl\\points.html",
               "RelativeDocumentMoniker": "scl\\points.html",
@@ -166,12 +163,24 @@
               "RelativeToolTip": "scl\\points.html",
               "ViewState": "AgIAABUAAAAAAAAAAAAAADAAAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-02-22T00:06:27.164Z",
+              "WhenOpened": "2026-02-22T00:06:27.164Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "index.html",
+              "DocumentMoniker": "D:\\Projects\\sagedian-efootball.pro.bd\\index.html",
+              "RelativeDocumentMoniker": "index.html",
+              "ToolTip": "D:\\Projects\\sagedian-efootball.pro.bd\\index.html*",
+              "RelativeToolTip": "index.html*",
+              "ViewState": "AgIAAPQBAAAAAAAAAAAAAJ0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-02-21T18:54:43.479Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "wretchedly-terrible-fc.html",
               "DocumentMoniker": "D:\\Projects\\sagedian-efootball.pro.bd\\teams\\wretchedly-terrible-fc.html",
               "RelativeDocumentMoniker": "teams\\wretchedly-terrible-fc.html",
@@ -179,12 +188,11 @@
               "RelativeToolTip": "teams\\wretchedly-terrible-fc.html",
               "ViewState": "AgIAADwAAAAAAAAAAAAAAF4AAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-02-21T23:18:00.306Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-21T23:18:00.306Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "star-vipers-cf.html",
               "DocumentMoniker": "D:\\Projects\\sagedian-efootball.pro.bd\\teams\\star-vipers-cf.html",
               "RelativeDocumentMoniker": "teams\\star-vipers-cf.html",
@@ -192,12 +200,11 @@
               "RelativeToolTip": "teams\\star-vipers-cf.html",
               "ViewState": "AgIAAEUAAAAAAAAAAAAAAGEAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-02-21T23:21:10.5Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-21T23:21:10.5Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "spartan-shield-fc.html",
               "DocumentMoniker": "D:\\Projects\\sagedian-efootball.pro.bd\\teams\\spartan-shield-fc.html",
               "RelativeDocumentMoniker": "teams\\spartan-shield-fc.html",
@@ -205,12 +212,11 @@
               "RelativeToolTip": "teams\\spartan-shield-fc.html",
               "ViewState": "AgIAADUAAAAAAAAAAAAIwFYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-02-21T23:20:44.09Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-21T23:20:44.09Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "beast-era.html",
               "DocumentMoniker": "D:\\Projects\\sagedian-efootball.pro.bd\\teams\\beast-era.html",
               "RelativeDocumentMoniker": "teams\\beast-era.html",
@@ -218,12 +224,11 @@
               "RelativeToolTip": "teams\\beast-era.html",
               "ViewState": "AgIAACwAAAAAAAAAAAAIwH0AAABVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-02-21T23:19:53.277Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-21T23:19:53.277Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "blaze-dominion-fc.html",
               "DocumentMoniker": "D:\\Projects\\sagedian-efootball.pro.bd\\teams\\blaze-dominion-fc.html",
               "RelativeDocumentMoniker": "teams\\blaze-dominion-fc.html",
@@ -231,12 +236,11 @@
               "RelativeToolTip": "teams\\blaze-dominion-fc.html",
               "ViewState": "AgIAAH0AAAAAAAAAAAAAAKoAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-02-21T23:19:23.522Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-21T23:19:23.522Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "index.html",
               "DocumentMoniker": "D:\\Projects\\sagedian-efootball.pro.bd\\teams\\index.html",
               "RelativeDocumentMoniker": "teams\\index.html",
@@ -244,12 +248,11 @@
               "RelativeToolTip": "teams\\index.html",
               "ViewState": "AgIAAFoAAAAAAAAAAAAuwIEAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-02-21T23:17:36.052Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-21T23:17:36.052Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "var-team.html",
               "DocumentMoniker": "D:\\Projects\\sagedian-efootball.pro.bd\\teams\\var-team.html",
               "RelativeDocumentMoniker": "teams\\var-team.html",
@@ -257,12 +260,11 @@
               "RelativeToolTip": "teams\\var-team.html",
               "ViewState": "AgIAAGUAAAAAAAAAAAAIwIIAAABYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-02-21T23:21:30.34Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-21T23:21:30.34Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "matchday.html",
               "DocumentMoniker": "D:\\Projects\\sagedian-efootball.pro.bd\\matchday.html",
               "RelativeDocumentMoniker": "matchday.html",
@@ -270,8 +272,7 @@
               "RelativeToolTip": "matchday.html",
               "ViewState": "AgIAANYAAAAAAAAAAAAgwPgAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-02-21T23:14:43.723Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-21T23:14:43.723Z"
             },
             {
               "$type": "Document",
@@ -284,18 +285,6 @@
               "ViewState": "AgIAAH0AAAAAAAAAAAAmwJ8AAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
               "WhenOpened": "2026-02-21T23:42:48.535Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "index.html",
-              "DocumentMoniker": "D:\\Projects\\sagedian-efootball.pro.bd\\index.html",
-              "RelativeDocumentMoniker": "index.html",
-              "ToolTip": "D:\\Projects\\sagedian-efootball.pro.bd\\index.html",
-              "RelativeToolTip": "index.html",
-              "ViewState": "AgIAAAABAAAAAAAAAAAAAJwAAABTAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-02-21T18:54:43.479Z"
             },
             {
               "$type": "Document",
@@ -323,7 +312,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "archive.html",
               "DocumentMoniker": "D:\\Projects\\sagedian-efootball.pro.bd\\archive.html",
               "RelativeDocumentMoniker": "archive.html",
