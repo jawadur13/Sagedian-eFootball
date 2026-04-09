@@ -153,10 +153,14 @@
     <script src="assets/js/main.js"></script>
 
    <script>
-const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTNRLcKodSD9CAu-KbkHOifpeoQ3LLNWEOE4ac5KOyuJNxQGNM83W8WPAg-N97gOfFNV9KmF3FuJAyI/pub?gid=276247880&single=true&output=csv";
+// We added ?cache= at the end to make sure the browser doesn't load an old version of your sheet
+const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTNRLcKodSD9CAu-KbkHOifpeoQ3LLNWEOE4ac5KOyuJNxQGNM83W8WPAg-N97gOfFNV9KmF3FuJAyI/pub?gid=276247880&single=true&output=csv&cache=" + new Date().getTime();
 
-fetch("https://corsproxy.io/?" + encodeURIComponent(sheetURL))
-  .then(res => res.text())
+fetch(sheetURL)
+  .then(res => {
+    if (!res.ok) throw new Error('Sheet access denied');
+    return res.text();
+  })
   .then(data => {
     // Parse CSV
     const rows = data.trim().split("\n").map(row => {
@@ -171,6 +175,9 @@ fetch("https://corsproxy.io/?" + encodeURIComponent(sheetURL))
       cells.push(current.trim());
       return cells;
     });
+
+    // Safety check: make sure we have at least 2 rows
+    if (rows.length < 2) return;
 
     const matchday = rows[0][0] || "Matchday";
     const deadline = rows[1][1] || "TBD";
@@ -232,6 +239,7 @@ fetch("https://corsproxy.io/?" + encodeURIComponent(sheetURL))
   })
   .catch(err => {
     console.error("Fetch error:", err);
+    document.getElementById("fixture-container").innerHTML = "Error loading matches. Please ensure the sheet is 'Published to Web'.";
   });
 </script>
 </body>﻿
