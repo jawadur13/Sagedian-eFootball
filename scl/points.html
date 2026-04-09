@@ -69,7 +69,7 @@
 
         async function loadStandings() {
             try {
-                const res = await fetch(CSV_URL);
+                const res = await fetch("https://corsproxy.io/?" + encodeURIComponent(CSV_URL));
                 const text = await res.text();
                 const rows = text.trim().split('\n').map(r => r.split(',').map(c => c.trim()));
 
