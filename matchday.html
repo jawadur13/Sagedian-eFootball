@@ -155,16 +155,17 @@
    <script>
 const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTNRLcKodSD9CAu-KbkHOifpeoQ3LLNWEOE4ac5KOyuJNxQGNM83W8WPAg-N97gOfFNV9KmF3FuJAyI/pub?gid=276247880&single=true&output=csv";
 
-// Using AllOrigins with a cache-buster for better reliability on Vercel
-fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(sheetURL)}&callback=?`)
+// Use AllOrigins proxy to bypass CORS
+fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(sheetURL)}`)
   .then(res => {
     if (!res.ok) throw new Error('Network error');
-    return res.json(); // AllOrigins returns a JSON object
+    return res.json();
   })
   .then(data => {
-    const csvData = data.contents; // The actual CSV is inside the 'contents' property
+    // AllOrigins wraps the data in a 'contents' property
+    const csvData = data.contents;
     
-    // Parse CSV
+    // Parse CSV rows properly
     const rows = csvData.trim().split("\n").map(row => {
       const cells = [];
       let current = "", inQuotes = false;
@@ -240,7 +241,8 @@ fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(sheetURL)}&callba
   })
   .catch(err => {
     console.error("Fetch error:", err);
-    document.getElementById("fixture-container").innerHTML = "Failed to sync with Matchday Database.";
+    // Silent fail or minimal user feedback
+    document.getElementById("fixture-container").innerHTML = "Unable to sync matches. Please try refreshing.";
   });
 </script>
 </body>﻿
