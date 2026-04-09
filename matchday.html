@@ -155,10 +155,19 @@
     <script>
 const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTNRLcKodSD9CAu-KbkHOifpeoQ3LLNWEOE4ac5KOyuJNxQGNM83W8WPAg-N97gOfFNV9KmF3FuJAyI/pub?gid=276247880&single=true&output=csv";
 
-fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(sheetURL))
-  .then(res => res.text())
+// CHANGED: Using a different proxy service (corsproxy.io)
+fetch("https://corsproxy.io/?" + encodeURIComponent(sheetURL))
+  .then(res => {
+    if (!res.ok) throw new Error('Network response was not ok');
+    return res.text();
+  })
   .then(data => {
-    // Robust CSV Parser
+    // Check if we actually got CSV data or an error page
+    if (data.includes("<!DOCTYPE html>") || data.includes("Cloudflare")) {
+        throw new Error("Proxy returned an error page instead of data.");
+    }
+
+    // ... REST OF YOUR PARSING CODE (the stuff from the previous fix) ...
     const rows = data.trim().split("\n").map(row => {
       const cells = [];
       let current = "", inQuotes = false;
@@ -172,41 +181,29 @@ fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(sheetURL))
       return cells;
     });
 
-    // Row 1: Matchday Title (Cell A1)
     const matchday = rows[0][0] || "Matchday";
-
-    // Row 2: Deadline Value (Cell B2)
     const deadline = rows[1][1] || "TBD";
 
     let selMatches = [], sclMatches = [];
-    let currentSection = "SEL"; // Start with SEL by default
+    let currentSection = "SEL";
 
-    // Loop starting from row 3 (index 2)
     for (let i = 2; i < rows.length; i++) {
       const colA = rows[i][0] || "";
       const colB = rows[i][1] || "";
-
       if (!colA && !colB) continue;
 
-      // Logic fix: Explicitly check for "Champions" to switch to SCL
       if (colA.toLowerCase().includes("champions league")) {
         currentSection = "SCL";
         continue;
-      } 
-      // If it mentions League but NOT Champions, ensure we are in SEL
-      else if (colA.toLowerCase().includes("league")) {
+      } else if (colA.toLowerCase().includes("league")) {
         currentSection = "SEL";
         continue;
       }
 
-      // If both columns have data, it's a match row
       if (colA && colB) {
         const matchObj = { home: colA, away: colB };
-        if (currentSection === "SEL") {
-          selMatches.push(matchObj);
-        } else {
-          sclMatches.push(matchObj);
-        }
+        if (currentSection === "SEL") selMatches.push(matchObj);
+        else sclMatches.push(matchObj);
       }
     }
 
@@ -244,9 +241,9 @@ fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(sheetURL))
   .catch(err => {
     document.getElementById("fixture-container").innerHTML =
       `<div class="fixture-placeholder">
-        <p style="color:var(--accent-red);">Failed to load matchday data. Please try again.</p>
+        <p style="color:var(--accent-red);">Service Busy. Please refresh the page.</p>
        </div>`;
-    console.error("Sheet fetch error:", err);
+    console.error("Fetch error:", err);
   });
 </script>
 </body>﻿
