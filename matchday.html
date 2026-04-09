@@ -153,17 +153,19 @@
     <script src="assets/js/main.js"></script>
 
    <script>
-// We added ?cache= at the end to make sure the browser doesn't load an old version of your sheet
-const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTNRLcKodSD9CAu-KbkHOifpeoQ3LLNWEOE4ac5KOyuJNxQGNM83W8WPAg-N97gOfFNV9KmF3FuJAyI/pub?gid=276247880&single=true&output=csv&cache=" + new Date().getTime();
+const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTNRLcKodSD9CAu-KbkHOifpeoQ3LLNWEOE4ac5KOyuJNxQGNM83W8WPAg-N97gOfFNV9KmF3FuJAyI/pub?gid=276247880&single=true&output=csv";
 
-fetch(sheetURL)
+// Using AllOrigins with a cache-buster for better reliability on Vercel
+fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(sheetURL)}&callback=?`)
   .then(res => {
-    if (!res.ok) throw new Error('Sheet access denied');
-    return res.text();
+    if (!res.ok) throw new Error('Network error');
+    return res.json(); // AllOrigins returns a JSON object
   })
   .then(data => {
+    const csvData = data.contents; // The actual CSV is inside the 'contents' property
+    
     // Parse CSV
-    const rows = data.trim().split("\n").map(row => {
+    const rows = csvData.trim().split("\n").map(row => {
       const cells = [];
       let current = "", inQuotes = false;
       for (let i = 0; i < row.length; i++) {
@@ -176,7 +178,6 @@ fetch(sheetURL)
       return cells;
     });
 
-    // Safety check: make sure we have at least 2 rows
     if (rows.length < 2) return;
 
     const matchday = rows[0][0] || "Matchday";
@@ -239,7 +240,7 @@ fetch(sheetURL)
   })
   .catch(err => {
     console.error("Fetch error:", err);
-    document.getElementById("fixture-container").innerHTML = "Error loading matches. Please ensure the sheet is 'Published to Web'.";
+    document.getElementById("fixture-container").innerHTML = "Failed to sync with Matchday Database.";
   });
 </script>
 </body>﻿
