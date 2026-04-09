@@ -152,22 +152,13 @@
 
     <script src="assets/js/main.js"></script>
 
-    <script>
+   <script>
 const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTNRLcKodSD9CAu-KbkHOifpeoQ3LLNWEOE4ac5KOyuJNxQGNM83W8WPAg-N97gOfFNV9KmF3FuJAyI/pub?gid=276247880&single=true&output=csv";
 
-// CHANGED: Using a different proxy service (corsproxy.io)
 fetch("https://corsproxy.io/?" + encodeURIComponent(sheetURL))
-  .then(res => {
-    if (!res.ok) throw new Error('Network response was not ok');
-    return res.text();
-  })
+  .then(res => res.text())
   .then(data => {
-    // Check if we actually got CSV data or an error page
-    if (data.includes("<!DOCTYPE html>") || data.includes("Cloudflare")) {
-        throw new Error("Proxy returned an error page instead of data.");
-    }
-
-    // ... REST OF YOUR PARSING CODE (the stuff from the previous fix) ...
+    // Parse CSV
     const rows = data.trim().split("\n").map(row => {
       const cells = [];
       let current = "", inQuotes = false;
@@ -185,11 +176,12 @@ fetch("https://corsproxy.io/?" + encodeURIComponent(sheetURL))
     const deadline = rows[1][1] || "TBD";
 
     let selMatches = [], sclMatches = [];
-    let currentSection = "SEL";
+    let currentSection = "SEL"; 
 
     for (let i = 2; i < rows.length; i++) {
       const colA = rows[i][0] || "";
       const colB = rows[i][1] || "";
+
       if (!colA && !colB) continue;
 
       if (colA.toLowerCase().includes("champions league")) {
@@ -239,10 +231,6 @@ fetch("https://corsproxy.io/?" + encodeURIComponent(sheetURL))
       </div>`;
   })
   .catch(err => {
-    document.getElementById("fixture-container").innerHTML =
-      `<div class="fixture-placeholder">
-        <p style="color:var(--accent-red);">Service Busy. Please refresh the page.</p>
-       </div>`;
     console.error("Fetch error:", err);
   });
 </script>
