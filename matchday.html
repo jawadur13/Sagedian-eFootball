@@ -155,10 +155,10 @@
     <script>
 const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTNRLcKodSD9CAu-KbkHOifpeoQ3LLNWEOE4ac5KOyuJNxQGNM83W8WPAg-N97gOfFNV9KmF3FuJAyI/pub?gid=276247880&single=true&output=csv";
 
-fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(sheetURL))  .then(res => res.text())
+fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(sheetURL))
+  .then(res => res.text())
   .then(data => {
-
-    // Parse CSV properly (handles quoted cells)
+    // Robust CSV Parser
     const rows = data.trim().split("\n").map(row => {
       const cells = [];
       let current = "", inQuotes = false;
@@ -172,36 +172,41 @@ fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(sheetURL))  .th
       return cells;
     });
 
-    // Row 1: "Matchday 1" is in col A (index 0), col B is empty
+    // Row 1: Matchday Title (Cell A1)
     const matchday = rows[0][0] || "Matchday";
 
-    // Row 2: "Deadline" in col A, value in col B
+    // Row 2: Deadline Value (Cell B2)
     const deadline = rows[1][1] || "TBD";
 
     let selMatches = [], sclMatches = [];
-    let currentSection = "";
+    let currentSection = "SEL"; // Start with SEL by default
 
+    // Loop starting from row 3 (index 2)
     for (let i = 2; i < rows.length; i++) {
       const colA = rows[i][0] || "";
       const colB = rows[i][1] || "";
 
       if (!colA && !colB) continue;
 
-      // Section header rows: text only in colA, colB is empty (merged cell)
-      if (colA && !colB) {
-        if (colA.toLowerCase().includes("champions league")) {
-          currentSection = "SCL";
-        } else if (colA.toLowerCase().includes("league")) {
-          // First league header = SEL, second = SCL (sheet has "Sagedian eFootball League" twice)
-          currentSection = currentSection === "SEL" ? "SCL" : "SEL";
-        }
+      // Logic fix: Explicitly check for "Champions" to switch to SCL
+      if (colA.toLowerCase().includes("champions league")) {
+        currentSection = "SCL";
+        continue;
+      } 
+      // If it mentions League but NOT Champions, ensure we are in SEL
+      else if (colA.toLowerCase().includes("league")) {
+        currentSection = "SEL";
         continue;
       }
 
-      // Match row: both columns have team names
+      // If both columns have data, it's a match row
       if (colA && colB) {
-        if (currentSection === "SEL") selMatches.push({ home: colA, away: colB });
-        if (currentSection === "SCL") sclMatches.push({ home: colA, away: colB });
+        const matchObj = { home: colA, away: colB };
+        if (currentSection === "SEL") {
+          selMatches.push(matchObj);
+        } else {
+          sclMatches.push(matchObj);
+        }
       }
     }
 
