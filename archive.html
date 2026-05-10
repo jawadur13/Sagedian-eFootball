@@ -734,7 +734,7 @@
             });
 
             document.getElementById('teamOverview').style.display = 'block';
-            document.getElementById('cardName').innerText = teams.find(t => t.id == id).name;
+            document.getElementById('cardName').innerText = teams.find(t => t.id == id)?.name || "Team";
             document.getElementById('cardP').innerText = st.p;
             document.getElementById('cardW').innerText = st.w;
             document.getElementById('cardD').innerText = st.d;
@@ -770,16 +770,16 @@
                 if (gA > gB) s.wA++; else if (gB > gA) s.wB++; else s.d++;
                 if (Math.abs(gA - gB) > s.maxD) { s.maxD = Math.abs(gA - gB); s.bigWin = `${gA}-${gB}`; }
                 hBody.innerHTML += `<tr>
-                        <td>${m.seasons.name}<br><small style="color:var(--text-muted)">${m.tournaments.name}</small></td>
-                        <td>${m.home.name}</td>
+                        <td>${m.seasons?.name || 'N/A'}<br><small style="color:var(--text-muted)">${m.tournaments?.name || 'Tournament'}</small></td>
+                        <td>${m.home?.name || 'Team A'}</td>
                         <td><span class="score-pill">${m.home_goals}-${m.away_goals}</span></td>
-                        <td>${m.away.name}</td>
+                        <td>${m.away?.name || 'Team B'}</td>
                     </tr>`;
             });
 
             document.getElementById('h2hView').style.display = 'block';
-            document.getElementById('h2hNameA').innerText = teams.find(t => t.id == idA).name;
-            document.getElementById('h2hNameB').innerText = teams.find(t => t.id == idB).name;
+            document.getElementById('h2hNameA').innerText = teams.find(t => t.id == idA)?.name || "Team A";
+            document.getElementById('h2hNameB').innerText = teams.find(t => t.id == idB)?.name || "Team B";
             document.getElementById('h2hP').innerText = s.p;
             document.getElementById('h2hWA').innerText = s.wA;
             document.getElementById('h2hWB').innerText = s.wB;
@@ -813,9 +813,9 @@
             body.innerHTML = '';
             filtered.forEach(m => {
                 body.innerHTML += `<tr>
-                        <td>${m.seasons.name}</td>
-                        <td>${m.tournaments.name}</td>
-                        <td>${m.home.name} vs ${m.away.name}</td>
+                        <td>${m.seasons?.name || 'N/A'}</td>
+                        <td>${m.tournaments?.name || 'Tournament'}</td>
+                        <td>${m.home?.name || 'Unknown'} vs ${m.away?.name || 'Unknown'}</td>
                         <td><span class="score-pill">${m.home_goals}-${m.away_goals}</span></td>
                     </tr>`;
             });
