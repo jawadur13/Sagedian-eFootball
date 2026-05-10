@@ -158,3 +158,9 @@ nav {
     color: var(--sel-primary); /* Turns blue (or your primary color) on hover */
     text-decoration: underline;
 }
+/* Adsterra Containers */
+.ad-slot { display: flex; justify-content: center; align-items: center; margin: 20px 0; width: 100%; }
+.ad-slot-header { margin-top: 10px; margin-bottom: 20px; }
+.ad-slot-footer { flex-direction: column; gap: 20px; margin-top: 40px; }
+.ad-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; display: block; text-align: center; }
+@media (max-width: 768px) { .hide-on-mobile { display: none !important; } }
