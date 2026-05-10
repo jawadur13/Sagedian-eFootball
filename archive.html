@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -830,25 +830,19 @@
             body.innerHTML = '';
 
             seasons.forEach(s => {
-                let html = `<tr><td><strong>${s.name}</strong>`;
-                if (s.name.includes("7")) html += `<span class="status-tag">In Progress</span>`;
-                html += `</td>`;
+                let html = `<tr><td><strong>${s.name}</strong></td>`;
 
                 tourneys.forEach(tr => {
-                    if (s.name.includes("7")) {
-                        html += `<td style="color:var(--text-muted); font-style:italic;">In Progress</td>`;
+                    const r = hof.find(h => h.season_id == s.id && h.tournament_id == tr.id);
+                    if (r) {
+                        const champ = teams.find(t => t.id == r.champion_id)?.name || "N/A";
+                        const runn = teams.find(t => t.id == r.runner_up_id)?.name || "N/A";
+                        html += `<td>
+                                <span class="winner-text">🏆 ${champ}</span><br>
+                                <small style="color:var(--text-muted);">Runner-Up: ${runn}</small>
+                            </td>`;
                     } else {
-                        const r = hof.find(h => h.season_id == s.id && h.tournament_id == tr.id);
-                        if (r) {
-                            const champ = teams.find(t => t.id == r.champion_id)?.name || "N/A";
-                            const runn = teams.find(t => t.id == r.runner_up_id)?.name || "N/A";
-                            html += `<td>
-                                    <span class="winner-text">🏆 ${champ}</span><br>
-                                    <small style="color:var(--text-muted);">Runner-Up: ${runn}</small>
-                                </td>`;
-                        } else {
-                            html += `<td style="color:var(--border-color);">Did not take place</td>`;
-                        }
+                        html += `<td style="color:var(--border-color);">Did not take place</td>`;
                     }
                 });
 
