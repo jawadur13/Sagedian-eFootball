@@ -56,8 +56,23 @@
         }
 
             .search-input:focus {
-                border-color: var(--sel-primary);
+                border-color: var(--vpl-primary);
             }
+
+        /* Category Header Row */
+        .category-row {
+            background: rgba(212, 175, 55, 0.1) !important;
+            border-left: 4px solid var(--vcl-gold);
+        }
+
+        .category-row td {
+            color: var(--vcl-gold) !important;
+            font-weight: bold !important;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem !important;
+            padding: 12px 20px !important;
+        }
 
         /* Live Stats Grid */
         .stats-grid {
@@ -84,7 +99,7 @@
 
             .stat-card strong {
                 font-size: 1.2rem;
-                color: var(--sel-primary);
+                color: var(--vpl-primary);
             }
 
         /* Squad Tab Grid */
@@ -133,7 +148,7 @@
             }
 
             .squad-table .pos {
-                color: var(--scl-gold);
+                color: var(--vcl-gold);
                 font-weight: bold;
                 width: 40px;
             }
@@ -147,18 +162,13 @@
         }
 
         .SOLD {
-            background: rgba(239, 68, 68, 0.2);
-            color: #ef4444;
-        }
-
-        .UNSOLD {
             background: rgba(34, 197, 94, 0.2);
             color: #22c55e;
         }
 
-        .tier {
-            font-weight: bold;
-            color: var(--scl-gold);
+        .UNSOLD {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
         }
 
         .team-logo-mini {
@@ -183,7 +193,7 @@
 
     <main class="container">
         <header style="text-align: center; margin-top: 40px;">
-            <h1 style="color: var(--vpl-primary);">Season 07 Auction Tracker</h1>
+            <h1 style="color: var(--vpl-primary);">Season 08 Auction Tracker</h1>
             <p style="color: var(--text-muted);">Live updates from the bidding floor.</p>
         </header>
 
@@ -194,6 +204,7 @@
         </div>
 
         <div class="auction-container">
+            <!-- Player Section -->
             <div id="playerSection" class="card" style="padding: 20px; display: block;">
                 <div class="search-wrapper">
                     <input type="text" id="playerSearch" class="search-input" placeholder="Search for a player name..." onkeyup="filterPlayers()">
@@ -206,31 +217,27 @@
                                 <th style="width: 40px;">SL</th>
                                 <th>Name</th>
                                 <th>Pos</th>
-                                <th>Tier</th>
                                 <th>Base</th>
+                                <th>Sold Price</th>
                                 <th>Sold To</th>
-                                <th>Final Price</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
-                        <tbody><tr><td colspan="8" style="text-align:center;">Loading Players...</td></tr></tbody>
+                        <tbody><tr><td colspan="7" style="text-align:center;">Loading Players...</td></tr></tbody>
                     </table>
                 </div>
             </div>
 
+            <!-- Team Standings Section -->
             <div id="teamSection" class="card" style="padding: 20px; display: none;">
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <small>Players Sold</small>
+                        <small>Total Players Sold</small>
                         <strong id="statSold">0</strong>
                     </div>
                     <div class="stat-card">
                         <small>Total Spend</small>
-                        <strong id="statSpent">0 BDT</strong>
-                    </div>
-                    <div class="stat-card">
-                        <small>Avg Price</small>
-                        <strong id="statAvg">0</strong>
+                        <strong id="statSpent">0 Cr</strong>
                     </div>
                 </div>
                 <h2 style="margin-bottom: 20px; font-size: 1.2rem; border-left: 4px solid var(--vcl-gold); padding-left: 10px;">Budget Standings</h2>
@@ -240,17 +247,17 @@
                             <tr>
                                 <th style="width: 40px;">Logo</th>
                                 <th>Team</th>
-                                <th>Budget</th>
+                                <th>Count</th>
                                 <th>Spent</th>
                                 <th>Remaining</th>
-                                <th>Count</th>
                             </tr>
                         </thead>
-                        <tbody><tr><td colspan="6" style="text-align:center;">Calculating Finances...</td></tr></tbody>
+                        <tbody><tr><td colspan="5" style="text-align:center;">Calculating Finances...</td></tr></tbody>
                     </table>
                 </div>
             </div>
 
+            <!-- Squads Section -->
             <div id="squadSection" style="display: none;">
                 <div id="squadGrid" class="squad-grid">
                     <p style="text-align:center; color: var(--text-muted);">Syncing Squads...</p>
@@ -263,9 +270,8 @@
 
     <script src="assets/js/main.js"></script>
     <script>
-        const playersCsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQk0BZJ-JAtl6uuA5tiM2UPRKJXJV7v2KVKi5w2bb6W60-X04HzqLC7ggDS12qkfV77sKqyuhU_rnYE/pub?gid=1335626413&single=true&output=csv";
-        const teamsCsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQk0BZJ-JAtl6uuA5tiM2UPRKJXJV7v2KVKi5w2bb6W60-X04HzqLC7ggDS12qkfV77sKqyuhU_rnYE/pub?gid=1901632266&single=true&output=csv";
-        const squadCsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQk0BZJ-JAtl6uuA5tiM2UPRKJXJV7v2KVKi5w2bb6W60-X04HzqLC7ggDS12qkfV77sKqyuhU_rnYE/pub?gid=1817997277&single=true&output=csv";
+        const playersCsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQk0BZJ-JAtl6uuA5tiM2UPRKJXJV7v2KVKi5w2bb6W60-X04HzqLC7ggDS12qkfV77sKqyuhU_rnYE/pub?gid=747271299&single=true&output=csv";
+        const teamFundCsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQk0BZJ-JAtl6uuA5tiM2UPRKJXJV7v2KVKi5w2bb6W60-X04HzqLC7ggDS12qkfV77sKqyuhU_rnYE/pub?gid=1339379932&single=true&output=csv";
 
         function switchTab(tab) {
             const sections = { player: 'playerSection', team: 'teamSection', squad: 'squadSection' };
@@ -276,15 +282,14 @@
             });
         }
 
-        // New Search Filter Logic
         function filterPlayers() {
             const input = document.getElementById('playerSearch');
             const filter = input.value.toLowerCase();
             const table = document.getElementById('playerTable');
             const tr = table.getElementsByTagName('tr');
-
             for (let i = 1; i < tr.length; i++) {
-                const nameCol = tr[i].getElementsByTagName('td')[1]; // Column 1 is Name
+                if (tr[i].classList.contains('category-row')) continue;
+                const nameCol = tr[i].getElementsByTagName('td')[1];
                 if (nameCol) {
                     const textValue = nameCol.textContent || nameCol.innerText;
                     tr[i].style.display = textValue.toLowerCase().indexOf(filter) > -1 ? "" : "none";
@@ -292,114 +297,154 @@
             }
         }
 
-        const tableState = {
-            playerTable: { lastHash: "", pendingHash: "" },
-            teamTable: { lastHash: "", pendingHash: "" },
-            squadGrid: { lastHash: "", pendingHash: "" }
-        };
-
         async function fetchData() {
             const cb = `&t=${new Date().getTime()}`;
-            await fetchTable(playersCsvUrl + cb, 'playerTable', true);
-            await fetchTable(teamsCsvUrl + cb, 'teamTable', false);
-            await fetchSquads(squadCsvUrl + cb);
+            await fetchPlayerPool(playersCsvUrl + cb);
+            await fetchTeamData(teamFundCsvUrl + cb);
         }
 
-        async function fetchTable(url, tableId, isPlayer) {
+        async function fetchPlayerPool(url) {
             try {
                 const res = await fetch(url);
                 const csv = await res.text();
-                const hash = csv.length + csv.slice(-20);
-                const state = tableState[tableId];
-
-                if (hash === state.lastHash) return;
-                if (hash !== state.pendingHash) { state.pendingHash = hash; return; }
-
-                state.lastHash = hash; state.pendingHash = "";
-                const rows = csv.split(/\r?\n/).filter(r => r.trim() !== "");
-                const tbody = document.querySelector(`#${tableId} tbody`);
+                const rows = csv.split(/\r?\n/).map(r => r.split(','));
+                const tbody = document.querySelector('#playerTable tbody');
                 tbody.innerHTML = "";
 
-                let totalS = 0, totalP = 0;
                 for (let i = 1; i < rows.length; i++) {
-                    const cols = rows[i].split(',');
+                    const cols = rows[i];
                     if (cols.length < 2) continue;
 
-                    if (!isPlayer) {
-                        totalS += parseFloat(cols[2]) || 0;
-                        totalP += parseInt(cols[4]) || 0;
+                    // Category detection: if Column A has text and others are empty
+                    if (cols[0] && !cols[1] && !cols[5]) {
+                        const catTr = document.createElement('tr');
+                        catTr.className = "category-row";
+                        catTr.innerHTML = `<td colspan="7">${cols[0]}</td>`;
+                        tbody.appendChild(catTr);
+                        continue;
                     }
+
+                    // Player row
+                    const name = cols[1]?.trim();
+                    if (!name || name === "Player Name") continue;
 
                     const tr = document.createElement('tr');
-                    let html = isPlayer ? `<td style="color:var(--text-muted);font-size:0.8rem;">${i}</td>` : "";
-
-                    if (!isPlayer) {
-                        const name = cols[0].trim();
-                        const logo = name.toLowerCase().replace(/\s+/g, '-');
-                        html += `<td><img src="assets/images/logos/${logo}.png" class="team-logo-mini"></td>`;
-                    }
-
-                    cols.forEach((col, idx) => {
-                        let val = col.trim();
-                        if (isPlayer && idx === 6) html += `<td><span class="status-badge ${val}">${val}</span></td>`;
-                        else if (isPlayer && idx === 2) html += `<td class="tier">${val}</td>`;
-                        else html += `<td>${val}</td>`;
-                    });
-                    tr.innerHTML = html;
+                    const status = cols[6]?.trim().toUpperCase() || "UNSOLD";
+                    
+                    tr.innerHTML = `
+                        <td style="color:var(--text-muted);font-size:0.8rem;">${cols[0]}</td>
+                        <td>${name}</td>
+                        <td>${cols[2] || ''}</td>
+                        <td>${cols[3] || ''}</td>
+                        <td>${cols[4] || ''}</td>
+                        <td>${cols[5] || ''}</td>
+                        <td><span class="status-badge ${status}">${status}</span></td>
+                    `;
                     tbody.appendChild(tr);
                 }
-
-                if (!isPlayer) {
-                    document.getElementById('statSold').innerText = totalP;
-                    document.getElementById('statSpent').innerText = totalS + " BDT";
-                    document.getElementById('statAvg').innerText = totalP > 0 ? Math.round(totalS / totalP) : 0;
-                }
-
-                // Re-apply filter after data update
-                if (isPlayer) filterPlayers();
-
+                filterPlayers();
             } catch (e) { console.error(e); }
         }
 
-        async function fetchSquads(url) {
+        async function fetchTeamData(url) {
             try {
                 const res = await fetch(url);
                 const csv = await res.text();
-                const hash = csv.length + csv.slice(-20);
-                const state = tableState.squadGrid;
-
-                if (hash === state.lastHash) return;
-                if (hash !== state.pendingHash) { state.pendingHash = hash; return; }
-                state.lastHash = hash; state.pendingHash = "";
-
                 const rows = csv.split(/\r?\n/).map(r => r.split(','));
-                const grid = document.getElementById('squadGrid');
-                grid.innerHTML = "";
+                
+                const teams = [];
+                // Process 4 team blocks horizontally (A:C, E:G, I:K, M:O)
+                // Row sets start at Row 1 and Row 35
+                const startRows = [0, 34]; 
+                const colOffsets = [0, 4, 8, 12];
 
-                const teamCount = Math.floor(rows[0].length / 3);
-                for (let t = 0; t < teamCount; t++) {
-                    const colIdx = t * 3;
-                    const teamName = rows[0][colIdx].trim();
-                    if (!teamName) continue;
+                startRows.forEach(sRow => {
+                    colOffsets.forEach(cOff => {
+                        const teamName = rows[sRow]?.[cOff]?.trim();
+                        if (!teamName || teamName === "" || teamName === "Player Name") return;
 
-                    const logo = teamName.toLowerCase().replace(/\s+/g, '-');
-                    let squadHtml = `<div class="squad-card"><div class="squad-header"><img src="assets/images/logos/${logo}.png" onerror="this.style.display='none'"><strong style="color:var(--sel-primary)">${teamName}</strong></div><table class="squad-table">`;
-                    let sl = 1;
-                    for (let r = 2; r < rows.length; r++) {
-                        const pName = rows[r][colIdx]?.trim();
-                        const pPos = rows[r][colIdx + 1]?.trim();
-                        const pPrice = rows[r][colIdx + 2]?.trim();
-                        if (pName && pName !== "#N/A" && pName !== "") {
-                            squadHtml += `<tr><td class="sl">${sl++}</td><td>${pName}</td><td class="pos">${pPos || ''}</td><td style="text-align:right">${pPrice || ''}</td></tr>`;
+                        // Budget Data (Relative to start row)
+                        // Row 28: Count, Row 29: Spent, Row 30: Remaining
+                        const pCount = rows[sRow + 27]?.[cOff + 1]?.trim() || "0";
+                        const pSpent = rows[sRow + 28]?.[cOff + 1]?.trim() || "0";
+                        const pRem = rows[sRow + 29]?.[cOff + 1]?.trim() || "0";
+
+                        // Squad Data (Starts at Row 3)
+                        const players = [];
+                        for (let r = sRow + 2; r < sRow + 27; r++) {
+                            const pName = rows[r]?.[cOff]?.trim();
+                            if (pName && pName !== "" && pName !== "Player Name") {
+                                players.push({
+                                    name: pName,
+                                    price: rows[r]?.[cOff + 1]?.trim(),
+                                    fund: rows[r]?.[cOff + 2]?.trim()
+                                });
+                            }
                         }
-                    }
-                    squadHtml += `</table></div>`;
-                    grid.innerHTML += squadHtml;
-                }
+
+                        teams.push({ name: teamName, count: pCount, spent: pSpent, remaining: pRem, players });
+                    });
+                });
+
+                renderBudgets(teams);
+                renderSquads(teams);
             } catch (e) { console.error(e); }
         }
 
-        setInterval(fetchData, 5000);
+        function renderBudgets(teams) {
+            const tbody = document.querySelector('#teamTable tbody');
+            tbody.innerHTML = "";
+            let totalSold = 0;
+            let totalSpent = 0;
+
+            teams.forEach(t => {
+                const logo = t.name.toLowerCase().replace(/\s+/g, '-');
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><img src="assets/images/logos/${logo}.png" onerror="this.src='assets/images/logos/vfa-placeholder.png'" class="team-logo-mini"></td>
+                    <td style="font-weight:bold;">${t.name}</td>
+                    <td>${t.count}</td>
+                    <td style="color:var(--vpl-primary)">${t.spent} Cr</td>
+                    <td style="color:var(--vcl-gold)">${t.remaining} Cr</td>
+                `;
+                tbody.appendChild(tr);
+                totalSold += parseInt(t.count) || 0;
+                totalSpent += parseFloat(t.spent) || 0;
+            });
+
+            document.getElementById('statSold').innerText = totalSold;
+            document.getElementById('statSpent').innerText = totalSpent.toFixed(2) + " Cr";
+        }
+
+        function renderSquads(teams) {
+            const grid = document.getElementById('squadGrid');
+            grid.innerHTML = "";
+            teams.forEach(t => {
+                const logo = t.name.toLowerCase().replace(/\s+/g, '-');
+                let squadHtml = `
+                    <div class="squad-card">
+                        <div class="squad-header">
+                            <img src="assets/images/logos/${logo}.png" onerror="this.style.display='none'">
+                            <strong style="color:var(--vpl-primary)">${t.name}</strong>
+                        </div>
+                        <table class="squad-table">`;
+                
+                t.players.forEach((p, i) => {
+                    squadHtml += `
+                        <tr>
+                            <td class="sl">${i + 1}</td>
+                            <td>${p.name}</td>
+                            <td style="text-align:right; font-weight:bold; color:var(--vcl-gold)">${p.price}</td>
+                        </tr>`;
+                });
+
+                squadHtml += `</table></div>`;
+                grid.innerHTML += squadHtml;
+            });
+        }
+
+        setInterval(fetchData, 10000); // 10s refresh
         fetchData();
     </script>
 </body>
+</html>
