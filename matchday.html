@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matchday Hub | Sagedian eFootball</title>
+    <title>Matchday Hub | VFA eFootball</title>
     <link rel="stylesheet" href="assets/css/main.css">
     <style>
         .matchday-header {
@@ -128,16 +128,16 @@
         </div>
 
         <div class="match-links-grid">
-            <div class="comp-link-card" style="border-top: 3px solid var(--sel-primary);">
-                <h4 style="color: var(--sel-primary);">Sagedian eFootball League Hub</h4>
+            <div class="comp-link-card" style="border-top: 3px solid var(--vpl-primary);">
+                <h4 style="color: var(--vpl-primary);">VFA Premier League Hub</h4>
                 <div class="comp-btn-group">
                     <a href="sel/points.html" class="btn-outline" style="font-size: 0.75rem;">Full Standings</a>
                     <a href="sel/schedule.html" class="btn-outline" style="font-size: 0.75rem;">Season Schedule</a>
                 </div>
             </div>
 
-            <div class="comp-link-card" style="border-top: 3px solid var(--scl-gold);">
-                <h4 style="color: var(--scl-gold);">Sagedian Champions League Hub</h4>
+            <div class="comp-link-card" style="border-top: 3px solid var(--vcl-gold);">
+                <h4 style="color: var(--vcl-gold);">VFA Champions League Hub</h4>
                 <div class="comp-btn-group">
                     <a href="scl/points.html" class="btn-outline gold" style="font-size: 0.75rem;">Full Standings</a>
                     <a href="scl/schedule.html" class="btn-outline gold" style="font-size: 0.75rem;">Season Schedule</a>
@@ -182,8 +182,8 @@ fetch(sheetURL)
     const matchday = rows[0][0] || "Matchday";
     const deadline = rows[1][1] || "TBD";
 
-    let selMatches = [], sclMatches = [];
-    let currentSection = "SEL"; 
+    let vplMatches = [], vclMatches = [];
+    let currentSection = "VPL"; 
 
     for (let i = 2; i < rows.length; i++) {
       const colA = rows[i][0] || "";
@@ -192,17 +192,17 @@ fetch(sheetURL)
       if (!colA && !colB) continue;
 
       if (colA.toLowerCase().includes("champions league")) {
-        currentSection = "SCL";
+        currentSection = "VCL";
         continue;
-      } else if (colA.toLowerCase().includes("league")) {
-        currentSection = "SEL";
+      } else if (colA.toLowerCase().includes("premier") || colA.toLowerCase().includes("league")) {
+        currentSection = "VPL";
         continue;
       }
 
       if (colA && colB) {
         const matchObj = { home: colA, away: colB };
-        if (currentSection === "SEL") selMatches.push(matchObj);
-        else sclMatches.push(matchObj);
+        if (currentSection === "VPL") vplMatches.push(matchObj);
+        else vclMatches.push(matchObj);
       }
     }
 
@@ -233,8 +233,8 @@ fetch(sheetURL)
         <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:0;">
           <strong style="color:var(--accent-red);">Deadline:</strong> ${deadline}
         </p>
-        ${sectionBlock("Sagedian eFootball League", "var(--sel-primary)", selMatches)}
-        ${sectionBlock("Sagedian Champions League", "var(--scl-gold)", sclMatches)}
+        ${sectionBlock("VFA Premier League", "var(--vpl-primary)", vplMatches)}
+        ${sectionBlock("VFA Champions League", "var(--vcl-gold)", vclMatches)}
       </div>`;
   })
   .catch(err => {

@@ -1,16 +1,24 @@
 :root {
-    /* Core Colors */
-    --bg-dark: #0a0b0d;
-    --surface-card: #161b22;
-    --surface-hover: #1c2128;
-    --border-color: #30363d;
+    /* Core Colors - VFA Official Palette */
+    --bg-dark: #0A0F2C;         /* Deep Navy */
+    --surface-card: #0D1B4B;    /* Midnight Blue */
+    --surface-hover: #16245a;   /* Slightly lighter than Midnight Blue */
+    --border-color: #1E90FF;    /* Electric Blue */
+    
     /* Competition Colors */
-    --sel-primary: #007bff;
-    --scl-gold: #d4af37;
-    --accent-red: #ff4b2b;
+    --vpl-primary: #1E90FF;     /* Electric Blue (VFA Premier League) */
+    --vcl-gold: #FFB700;        /* Championship Gold (VFA Champions League) */
+    --vss-silver: #C0C8D8;      /* Metallic Silver (VFA Super Shield) */
+    --accent-red: #ff4b2b;      /* Keeping red for live indicators */
+
     /* Text */
-    --text-main: #f0f6fc;
-    --text-muted: #8b949e;
+    --text-main: #FFFFFF;       /* Pure White */
+    --text-muted: #8A9BB5;      /* Steel Grey */
+    
+    /* Backward compatibility/Mapping */
+    --sel-primary: var(--vpl-primary);
+    --scl-gold: var(--vcl-gold);
+
     /* Spacing & Radii */
     --radius: 8px;
     --container-width: 1100px;
