@@ -417,7 +417,7 @@
                 const logoUrl = getTeamLogo(t.name);
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td><img src="${logoUrl}" onerror="this.onerror=null; this.src='assets/images/logos/VFA_logo.png'" class="team-logo-mini"></td>
+                    <td><img src="${logoUrl}" onerror="this.style.display='none'" class="team-logo-mini"></td>
                     <td style="font-weight:bold;">${t.name}</td>
                     <td>${t.count}</td>
                     <td style="color:var(--vpl-primary)">${t.spent} Cr</td>
