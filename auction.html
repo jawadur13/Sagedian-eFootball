@@ -259,7 +259,10 @@
 
             <!-- Squads Section -->
             <div id="squadSection" style="display: none;">
-                <div id="squadGrid" class="squad-grid">
+                <div id="squadNav" class="tab-container" style="margin-bottom: 20px; justify-content: flex-start; overflow-x: auto; padding-bottom: 10px;">
+                    <!-- Team selection buttons will be injected here -->
+                </div>
+                <div id="squadGrid" class="squad-grid" style="grid-template-columns: 1fr;">
                     <p style="text-align:center; color: var(--text-muted);">Syncing Squads...</p>
                 </div>
             </div>
@@ -429,31 +432,61 @@
             document.getElementById('statSpent').innerText = totalSpent.toFixed(2) + " Cr";
         }
 
-        function renderSquads(teams) {
-            const grid = document.getElementById('squadGrid');
-            grid.innerHTML = "";
-            teams.forEach(t => {
-                const logoUrl = getTeamLogo(t.name);
-                let squadHtml = `
-                    <div class="squad-card">
-                        <div class="squad-header">
-                            <img src="${logoUrl}" onerror="this.style.display='none'">
-                            <strong style="color:var(--vpl-primary)">${t.name}</strong>
-                        </div>
-                        <table class="squad-table">`;
-                
-                t.players.forEach((p, i) => {
-                    squadHtml += `
-                        <tr>
-                            <td class="sl">${i + 1}</td>
-                            <td>${p.name}</td>
-                            <td style="text-align:right; font-weight:bold; color:var(--vcl-gold)">${p.price}</td>
-                        </tr>`;
-                });
+        let currentSquadIndex = 0;
 
-                squadHtml += `</table></div>`;
-                grid.innerHTML += squadHtml;
+        function renderSquads(teams) {
+            const nav = document.getElementById('squadNav');
+            const grid = document.getElementById('squadGrid');
+            
+            // Render Nav Buttons
+            nav.innerHTML = "";
+            teams.forEach((t, i) => {
+                const btn = document.createElement('button');
+                btn.className = `tab-btn ${i === currentSquadIndex ? 'active' : ''}`;
+                btn.style.padding = "8px 15px";
+                btn.style.fontSize = "0.75rem";
+                btn.innerText = t.name;
+                btn.onclick = () => {
+                    currentSquadIndex = i;
+                    renderSquads(teams);
+                };
+                nav.appendChild(btn);
             });
+
+            // Render Selected Squad
+            grid.innerHTML = "";
+            const t = teams[currentSquadIndex];
+            if (!t) return;
+
+            const logoUrl = getTeamLogo(t.name);
+            let squadHtml = `
+                <div class="squad-card" style="max-width: 600px; margin: 0 auto;">
+                    <div class="squad-header">
+                        <img src="${logoUrl}" onerror="this.style.display='none'">
+                        <strong style="color:var(--vpl-primary)">${t.name}</strong>
+                        <span style="margin-left: auto; color: var(--vcl-gold); font-size: 0.8rem;">Budget Remaining: ${t.remaining} Cr</span>
+                    </div>
+                    <table class="squad-table">
+                        <thead>
+                            <tr style="border-bottom: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.75rem;">
+                                <th style="text-align:left; padding: 10px;">SL</th>
+                                <th style="text-align:left; padding: 10px;">Player Name</th>
+                                <th style="text-align:right; padding: 10px;">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
+            
+            t.players.forEach((p, i) => {
+                squadHtml += `
+                    <tr>
+                        <td class="sl" style="padding: 10px;">${i + 1}</td>
+                        <td style="padding: 10px;">${p.name}</td>
+                        <td style="text-align:right; font-weight:bold; color:var(--vcl-gold); padding: 10px;">${p.price}</td>
+                    </tr>`;
+            });
+
+            squadHtml += `</tbody></table></div>`;
+            grid.innerHTML = squadHtml;
         }
 
         setInterval(fetchData, 10000); // 10s refresh
