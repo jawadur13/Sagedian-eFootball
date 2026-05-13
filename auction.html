@@ -391,6 +391,19 @@
             } catch (e) { console.error(e); }
         }
 
+        const LOGO_MAP = {
+            'beast era fc': 'beast-era',
+            'scarlet shield xi': 'spartan-shield-fc',
+            'beast era': 'beast-era',
+            'scarlet shield': 'spartan-shield-fc'
+        };
+
+        function getTeamLogo(teamName) {
+            const normalized = teamName.toLowerCase().trim();
+            const slug = LOGO_MAP[normalized] || normalized.replace(/\s+/g, '-');
+            return `assets/images/logos/${slug}.png`;
+        }
+
         function renderBudgets(teams) {
             const tbody = document.querySelector('#teamTable tbody');
             tbody.innerHTML = "";
@@ -398,10 +411,10 @@
             let totalSpent = 0;
 
             teams.forEach(t => {
-                const logo = t.name.toLowerCase().replace(/\s+/g, '-');
+                const logoUrl = getTeamLogo(t.name);
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td><img src="assets/images/logos/${logo}.png" onerror="this.src='assets/images/logos/vfa-placeholder.png'" class="team-logo-mini"></td>
+                    <td><img src="${logoUrl}" onerror="this.onerror=null; this.src='assets/images/logos/VFA_logo.png'" class="team-logo-mini"></td>
                     <td style="font-weight:bold;">${t.name}</td>
                     <td>${t.count}</td>
                     <td style="color:var(--vpl-primary)">${t.spent} Cr</td>
@@ -420,11 +433,11 @@
             const grid = document.getElementById('squadGrid');
             grid.innerHTML = "";
             teams.forEach(t => {
-                const logo = t.name.toLowerCase().replace(/\s+/g, '-');
+                const logoUrl = getTeamLogo(t.name);
                 let squadHtml = `
                     <div class="squad-card">
                         <div class="squad-header">
-                            <img src="assets/images/logos/${logo}.png" onerror="this.style.display='none'">
+                            <img src="${logoUrl}" onerror="this.style.display='none'">
                             <strong style="color:var(--vpl-primary)">${t.name}</strong>
                         </div>
                         <table class="squad-table">`;
