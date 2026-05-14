@@ -1,212 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matchday Hub | VFA eFootball</title>
-    <link rel="stylesheet" href="assets/css/main.css">
-    <style>
-        .matchday-header {
-            text-align: center;
-            margin: 50px 0;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matchday Hub | VFA eFootball</title>
+  <link rel="stylesheet" href="assets/css/main.css">
+  <style>
+    .matchday-header {
+      text-align: center;
+      margin: 50px 0;
+    }
 
-        .live-indicator {
-            display: inline-block;
-            background: rgba(239, 68, 68, 0.1);
-            color: #ef4444;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-            border: 1px solid rgba(239, 68, 68, 0.2);
-        }
+    .live-indicator {
+      display: inline-block;
+      background: rgba(239, 68, 68, 0.1);
+      color: #ef4444;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
 
-        .pulse {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background: #ef4444;
-            border-radius: 50%;
-            margin-right: 5px;
-            animation: pulse-animation 1.5s infinite;
-        }
+    .pulse {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: #ef4444;
+      border-radius: 50%;
+      margin-right: 5px;
+      animation: pulse-animation 1.5s infinite;
+    }
 
-        @keyframes pulse-animation {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
-        }
-
-        .fixture-placeholder {
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
-            padding: 60px 20px;
-            background: var(--surface-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius);
-        }
-
-        .vs-box {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            margin: 30px 0;
-        }
-
-        .team-stub {
-            width: 60px;
-            height: 60px;
-            background: var(--bg-dark);
-            border-radius: 50%;
-            border: 2px dashed var(--border-color);
-        }
-
-        .vs-circle {
-            width: 40px;
-            height: 40px;
-            background: var(--surface-hover);
-            border: 1px solid var(--border-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            font-weight: bold;
-            color: var(--text-muted);
-        }
-
-        /* New Quick Links Section */
-        .match-links-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            max-width: 600px;
-            margin: 30px auto;
-        }
-
-        .comp-link-card {
-            background: var(--surface-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius);
-            padding: 15px;
-            text-align: center;
-        }
-
-        .comp-link-card h4 {
-            margin-bottom: 15px;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .comp-btn-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-    </style>
-</head>
-<body>
-
-    <div id="main-header"></div>
-
-    <main class="container">
-        
-        <header class="matchday-header">
-            <div class="live-indicator">
-                <span class="pulse"></span> LIVE ACTION HUB
-            </div>
-            <h1>Current Matchday</h1>
-        </header>
-
-        <div id="fixture-container">
-            Loading...
-        </div>
-
-        <div class="match-links-grid">
-            <div class="comp-link-card" style="border-top: 3px solid var(--vpl-primary);">
-                <h4 style="color: var(--vpl-primary);">VFA Premier League Hub</h4>
-                <div class="comp-btn-group">
-                    <a href="sel/points.html" class="btn-outline" style="font-size: 0.75rem;">Full Standings</a>
-                    <a href="sel/schedule.html" class="btn-outline" style="font-size: 0.75rem;">Season Schedule</a>
-                </div>
-            </div>
-
-            <div class="comp-link-card" style="border-top: 3px solid var(--vcl-gold);">
-                <h4 style="color: var(--vcl-gold);">VFA Champions League Hub</h4>
-                <div class="comp-btn-group">
-                    <a href="scl/points.html" class="btn-outline gold" style="font-size: 0.75rem;">Full Standings</a>
-                    <a href="scl/schedule.html" class="btn-outline gold" style="font-size: 0.75rem;">Season Schedule</a>
-                </div>
-            </div>
-        </div>
-
-    </main>
-
-
-    <div id="main-footer"></div>
-
-    <script src="assets/js/main.js"></script>
-
-   <script>
-const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTNRLcKodSD9CAu-KbkHOifpeoQ3LLNWEOE4ac5KOyuJNxQGNM83W8WPAg-N97gOfFNV9KmF3FuJAyI/pub?gid=276247880&single=true&output=csv";
-
-// Use AllOrigins proxy to bypass CORS
-fetch(sheetURL)
-  .then(res => {
-    if (!res.ok) throw new Error('Network error');
-    return res.text();  // ← direct text, no wrapper
-  })
-  .then(csvData => {
-    
-    // Parse CSV rows properly
-    const rows = csvData.trim().split("\n").map(row => {
-      const cells = [];
-      let current = "", inQuotes = false;
-      for (let i = 0; i < row.length; i++) {
-        const ch = row[i];
-        if (ch === '"') { inQuotes = !inQuotes; continue; }
-        if (ch === ',' && !inQuotes) { cells.push(current.trim()); current = ""; continue; }
-        current += ch;
-      }
-      cells.push(current.trim());
-      return cells;
-    });
-
-    if (rows.length < 2) return;
-
-    const matchday = rows[0][0] || "Matchday";
-    const deadline = rows[1][1] || "TBD";
-
-    let vplMatches = [], vclMatches = [];
-    let currentSection = "VPL"; 
-
-    for (let i = 2; i < rows.length; i++) {
-      const colA = rows[i][0] || "";
-      const colB = rows[i][1] || "";
-
-      if (!colA && !colB) continue;
-
-      if (colA.toLowerCase().includes("champions league")) {
-        currentSection = "VCL";
-        continue;
-      } else if (colA.toLowerCase().includes("premier") || colA.toLowerCase().includes("league")) {
-        currentSection = "VPL";
-        continue;
+    @keyframes pulse-animation {
+      0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
       }
 
-      if (colA && colB) {
-        const matchObj = { home: colA, away: colB };
-        if (currentSection === "VPL") vplMatches.push(matchObj);
-        else vclMatches.push(matchObj);
+      70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+      }
+
+      100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
       }
     }
 
-    const matchRow = m => `
+    .fixture-placeholder {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 60px 20px;
+      background: var(--surface-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+    }
+
+    .vs-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin: 30px 0;
+    }
+
+    .team-stub {
+      width: 60px;
+      height: 60px;
+      background: var(--bg-dark);
+      border-radius: 50%;
+      border: 2px dashed var(--border-color);
+    }
+
+    .vs-circle {
+      width: 40px;
+      height: 40px;
+      background: var(--surface-hover);
+      border: 1px solid var(--border-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: bold;
+      color: var(--text-muted);
+    }
+
+    /* New Quick Links Section */
+    .match-links-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      max-width: 600px;
+      margin: 30px auto;
+    }
+
+    .comp-link-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 15px;
+      text-align: center;
+    }
+
+    .comp-link-card h4 {
+      margin-bottom: 15px;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .comp-btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="main-header"></div>
+
+  <main class="container">
+
+    <header class="matchday-header">
+      <div class="live-indicator">
+        <span class="pulse"></span> LIVE ACTION HUB
+      </div>
+      <h1>Current Matchday</h1>
+    </header>
+
+    <div id="fixture-container">
+      Loading...
+    </div>
+
+    <div class="match-links-grid">
+      <div class="comp-link-card" style="border-top: 3px solid var(--vpl-primary);">
+        <h4 style="color: var(--vpl-primary);">VFA Premier League Hub</h4>
+        <div class="comp-btn-group">
+          <a href="vpl/points.html" class="btn-outline" style="font-size: 0.75rem;">Full Standings</a>
+          <a href="vpl/schedule.html" class="btn-outline" style="font-size: 0.75rem;">Season Schedule</a>
+        </div>
+      </div>
+
+      <div class="comp-link-card" style="border-top: 3px solid var(--vcl-gold);">
+        <h4 style="color: var(--vcl-gold);">VFA Champions League Hub</h4>
+        <div class="comp-btn-group">
+          <a href="vcl/points.html" class="btn-outline gold" style="font-size: 0.75rem;">Full Standings</a>
+          <a href="vcl/schedule.html" class="btn-outline gold" style="font-size: 0.75rem;">Season Schedule</a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+
+  <div id="main-footer"></div>
+
+  <script src="assets/js/main.js"></script>
+
+  <script>
+    const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTNRLcKodSD9CAu-KbkHOifpeoQ3LLNWEOE4ac5KOyuJNxQGNM83W8WPAg-N97gOfFNV9KmF3FuJAyI/pub?gid=276247880&single=true&output=csv";
+
+    // Use AllOrigins proxy to bypass CORS
+    fetch(sheetURL)
+      .then(res => {
+        if (!res.ok) throw new Error('Network error');
+        return res.text();  // ← direct text, no wrapper
+      })
+      .then(csvData => {
+
+        // Parse CSV rows properly
+        const rows = csvData.trim().split("\n").map(row => {
+          const cells = [];
+          let current = "", inQuotes = false;
+          for (let i = 0; i < row.length; i++) {
+            const ch = row[i];
+            if (ch === '"') { inQuotes = !inQuotes; continue; }
+            if (ch === ',' && !inQuotes) { cells.push(current.trim()); current = ""; continue; }
+            current += ch;
+          }
+          cells.push(current.trim());
+          return cells;
+        });
+
+        if (rows.length < 2) return;
+
+        const matchday = rows[0][0] || "Matchday";
+        const deadline = rows[1][1] || "TBD";
+
+        let vplMatches = [], vclMatches = [];
+        let currentSection = "VPL";
+
+        for (let i = 2; i < rows.length; i++) {
+          const colA = rows[i][0] || "";
+          const colB = rows[i][1] || "";
+
+          if (!colA && !colB) continue;
+
+          if (colA.toLowerCase().includes("champions league")) {
+            currentSection = "VCL";
+            continue;
+          } else if (colA.toLowerCase().includes("premier") || colA.toLowerCase().includes("league")) {
+            currentSection = "VPL";
+            continue;
+          }
+
+          if (colA && colB) {
+            const matchObj = { home: colA, away: colB };
+            if (currentSection === "VPL") vplMatches.push(matchObj);
+            else vclMatches.push(matchObj);
+          }
+        }
+
+        const matchRow = m => `
       <li style="display:flex; justify-content:space-between; align-items:center;
                   padding:10px 14px; background:var(--bg-dark);
                   border:1px solid var(--border-color); border-radius:6px;
@@ -216,7 +229,7 @@ fetch(sheetURL)
         <span style="flex:1; text-align:left; font-weight:600;">${m.away}</span>
       </li>`;
 
-    const sectionBlock = (title, color, matches) => matches.length ? `
+        const sectionBlock = (title, color, matches) => matches.length ? `
       <div style="margin-top:24px; text-align:left;">
         <div style="font-size:0.72rem; font-weight:700; text-transform:uppercase;
                     letter-spacing:2px; color:${color}; margin-bottom:10px; padding-left:4px;">
@@ -227,7 +240,7 @@ fetch(sheetURL)
         </ul>
       </div>` : "";
 
-    document.getElementById("fixture-container").innerHTML = `
+        document.getElementById("fixture-container").innerHTML = `
       <div class="fixture-placeholder">
         <h2 style="font-size:1.6rem; margin-bottom:6px;">${matchday}</h2>
         <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:0;">
@@ -236,12 +249,12 @@ fetch(sheetURL)
         ${sectionBlock("VFA Premier League", "var(--vpl-primary)", vplMatches)}
         ${sectionBlock("VFA Champions League", "var(--vcl-gold)", vclMatches)}
       </div>`;
-  })
-  .catch(err => {
-    console.error("Fetch error:", err);
-    // Silent fail or minimal user feedback
-    document.getElementById("fixture-container").innerHTML = "Unable to sync matches. Please try refreshing.";
-  });
-  loadComponents();
-</script>
+      })
+      .catch(err => {
+        console.error("Fetch error:", err);
+        // Silent fail or minimal user feedback
+        document.getElementById("fixture-container").innerHTML = "Unable to sync matches. Please try refreshing.";
+      });
+    loadComponents();
+  </script>
 </body>﻿
