@@ -1,7 +1,7 @@
 function loadComponents() {
     const isSubfolder = window.location.pathname.includes('/teams/') ||
-        window.location.pathname.includes('/sel/') ||
-        window.location.pathname.includes('/scl/');
+        window.location.pathname.includes('/vpl/') ||
+        window.location.pathname.includes('/vcl/');
 
     const prefix = isSubfolder ? '../' : '';
 
