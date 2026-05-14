@@ -8,6 +8,107 @@
     <link rel="stylesheet" href="assets/css/main.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="config.js"></script>
+    <style>
+        .logo-ticker-container {
+            width: 100%;
+            overflow: hidden;
+            background: rgba(15, 23, 42, 0.5);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px 0;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .logo-ticker-container::before,
+        .logo-ticker-container::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 100px;
+            height: 100%;
+            z-index: 2;
+        }
+
+        .logo-ticker-container::before {
+            left: 0;
+            background: linear-gradient(to right, var(--bg-dark), transparent);
+        }
+
+        .logo-ticker-container::after {
+            right: 0;
+            background: linear-gradient(to left, var(--bg-dark), transparent);
+        }
+
+        .logo-ticker-track {
+            display: flex;
+            width: calc(180px * 26); /* 13 logos * 2 sets */
+            animation: scroll 40s linear infinite;
+        }
+
+        .logo-item {
+            width: 180px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 40px;
+            transition: transform 0.3s ease;
+            filter: grayscale(30%) brightness(0.8);
+            position: relative;
+        }
+
+        .logo-item:hover {
+            transform: scale(1.15);
+            filter: grayscale(0%) brightness(1.1);
+        }
+
+        /* Hover Label */
+        .logo-item::after {
+            content: attr(data-name);
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--vcl-gold);
+            color: black;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            font-weight: 800;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s ease, bottom 0.3s ease;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .logo-item:hover::after {
+            opacity: 1;
+            bottom: -10px;
+        }
+
+        .logo-item img {
+            max-width: 80px;
+            max-height: 80px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.1));
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-180px * 13)); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .logo-item { width: 140px; padding: 0 25px; }
+            .logo-ticker-track { width: calc(140px * 26); }
+            @keyframes scroll {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(calc(-140px * 13)); }
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -32,6 +133,46 @@
                     <img src="assets/images/logos/VFA_banner.png" alt="VFA Banner"
                         style="width: 100%; display: block;" />
                 </div>
+            </div>
+        </section>
+
+        <!-- ── Team Logo Ticker ── -->
+        <div style="text-align: center; margin-bottom: -10px; position: relative; z-index: 5;">
+            <span style="font-size: 0.7rem; color: var(--vcl-gold); font-weight: 700; text-transform: uppercase; letter-spacing: 3px; background: var(--bg-dark); padding: 0 15px;">
+                Meet the Contenders | Season 8
+            </span>
+        </div>
+        <section class="logo-ticker-container">
+            <div class="logo-ticker-track">
+                <!-- First set of logos -->
+                <div class="logo-item" data-name="Astral Warriors"><img src="assets/images/logos/astral-warriors.jpg" alt="Astral Warriors"></div>
+                <div class="logo-item" data-name="Beast Era FC"><img src="assets/images/logos/beast-era-fc.png" alt="Beast Era FC"></div>
+                <div class="logo-item" data-name="Blaze Dominion FC"><img src="assets/images/logos/blaze-dominion-fc.png" alt="Blaze Dominion FC"></div>
+                <div class="logo-item" data-name="Chaos FC"><img src="assets/images/logos/chaos-fc.jpg" alt="Chaos FC"></div>
+                <div class="logo-item" data-name="Destroyers FC"><img src="assets/images/logos/destroyers-fc.jpg" alt="Destroyers FC"></div>
+                <div class="logo-item" data-name="Dream Fail Team"><img src="assets/images/logos/dream-fail-team.jpg" alt="Dream Fail Team"></div>
+                <div class="logo-item" data-name="Invincible Gunners"><img src="assets/images/logos/invincible-gunners.png" alt="Invincible Gunners"></div>
+                <div class="logo-item" data-name="MidKnight Archon"><img src="assets/images/logos/midknight-archon.jpg" alt="MidKnight Archon"></div>
+                <div class="logo-item" data-name="Mystic Spyder"><img src="assets/images/logos/mystic-spyder.jpg" alt="Mystic Spyder"></div>
+                <div class="logo-item" data-name="NR Elite"><img src="assets/images/logos/nr-elite.png" alt="NR Elite"></div>
+                <div class="logo-item" data-name="Scarlet Shield XI"><img src="assets/images/logos/scarlet-shield-fc.png" alt="Scarlet Shield XI"></div>
+                <div class="logo-item" data-name="Star Vipers CF"><img src="assets/images/logos/star-vipers-cf.jpg" alt="Star Vipers CF"></div>
+                <div class="logo-item" data-name="Wretchedly Terrible FC"><img src="assets/images/logos/wretchedly-terrible-fc.png" alt="Wretchedly Terrible FC"></div>
+                
+                <!-- Duplicate set for seamless loop -->
+                <div class="logo-item" data-name="Astral Warriors"><img src="assets/images/logos/astral-warriors.jpg" alt="Astral Warriors"></div>
+                <div class="logo-item" data-name="Beast Era FC"><img src="assets/images/logos/beast-era-fc.png" alt="Beast Era FC"></div>
+                <div class="logo-item" data-name="Blaze Dominion FC"><img src="assets/images/logos/blaze-dominion-fc.png" alt="Blaze Dominion FC"></div>
+                <div class="logo-item" data-name="Chaos FC"><img src="assets/images/logos/chaos-fc.jpg" alt="Chaos FC"></div>
+                <div class="logo-item" data-name="Destroyers FC"><img src="assets/images/logos/destroyers-fc.jpg" alt="Destroyers FC"></div>
+                <div class="logo-item" data-name="Dream Fail Team"><img src="assets/images/logos/dream-fail-team.jpg" alt="Dream Fail Team"></div>
+                <div class="logo-item" data-name="Invincible Gunners"><img src="assets/images/logos/invincible-gunners.png" alt="Invincible Gunners"></div>
+                <div class="logo-item" data-name="MidKnight Archon"><img src="assets/images/logos/midknight-archon.jpg" alt="MidKnight Archon"></div>
+                <div class="logo-item" data-name="Mystic Spyder"><img src="assets/images/logos/mystic-spyder.jpg" alt="Mystic Spyder"></div>
+                <div class="logo-item" data-name="NR Elite"><img src="assets/images/logos/nr-elite.png" alt="NR Elite"></div>
+                <div class="logo-item" data-name="Scarlet Shield XI"><img src="assets/images/logos/scarlet-shield-fc.png" alt="Scarlet Shield XI"></div>
+                <div class="logo-item" data-name="Star Vipers CF"><img src="assets/images/logos/star-vipers-cf.jpg" alt="Star Vipers CF"></div>
+                <div class="logo-item" data-name="Wretchedly Terrible FC"><img src="assets/images/logos/wretchedly-terrible-fc.png" alt="Wretchedly Terrible FC"></div>
             </div>
         </section>
 
