@@ -395,16 +395,23 @@
         }
 
         const LOGO_MAP = {
-            'beast era fc': 'beast-era',
-            'scarlet shield xi': 'spartan-shield-fc',
-            'beast era': 'beast-era',
-            'scarlet shield': 'spartan-shield-fc'
+            'beast era fc': 'beast-era.png',
+            'scarlet shield xi': 'spartan-shield-fc.png',
+            'beast era': 'beast-era.png',
+            'scarlet shield': 'spartan-shield-fc.png',
+            'chaos fc': 'chaos-fc.jpg',
+            'destroyer fc': 'destroyers-fc.jpg',
+            'dream fail team': 'dream-fail-team.jpg',
+            'midnight archon': 'midknight-archon.jpg',
+            'mystic spyder': 'mystic-spyder.jpg'
         };
 
         function getTeamLogo(teamName) {
             const normalized = teamName.toLowerCase().trim();
-            const slug = LOGO_MAP[normalized] || normalized.replace(/\s+/g, '-');
-            return `assets/images/logos/${slug}.png`;
+            if (LOGO_MAP[normalized]) return `assets/images/logos/${LOGO_MAP[normalized]}`;
+            
+            const slug = normalized.replace(/\s+/g, '-');
+            return `assets/images/logos/${slug}.png`; // Default to png for others
         }
 
         function renderBudgets(teams) {
